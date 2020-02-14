@@ -12,6 +12,7 @@ LazyData: true
 Imports: 
     stringr,
     magrittr,
-    rlang
+    rlang,
+    ggplot2
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.0.2
