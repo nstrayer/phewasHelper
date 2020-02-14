@@ -20,7 +20,7 @@ category_colors <- function(return_df = FALSE){
                   "symptoms",                "hematopoietic",         "genitourinary",
                   "infectious diseases",     "sense organs",          "digestive",
                   "pregnancy complications", "injuries & poisonings", "musculoskeletal",
-                  "congenital anomalies",    "neurological")
+                  "congenital anomalies",    "neurological",          "other")
 
   # Hard coded colors
   colors <- c("#673770", "#C0717C", "#7FDCC0",
@@ -28,7 +28,7 @@ category_colors <- function(return_df = FALSE){
               "#5E738F", "#8A7C64", "#689030",
               "#DA5724", "#C84248", "#508578",
               "#599861", "#CBD588", "#CE50CA",
-              "#D1A33D", "#3F4921")
+              "#D1A33D", "#3F4921", "#d9d9d9")
 
   if(return_df){
     colors <- dplyr::tibble(
