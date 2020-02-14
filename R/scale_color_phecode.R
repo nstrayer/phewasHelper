@@ -16,10 +16,7 @@
 #'   ggplot(aes(x = phecode, y = val, color = category)) +
 #'   geom_point() +
 #'   scale_color_phecode() +
-#'   theme(axis.ticks.x = element_blank(),
-#'         axis.text.x = element_blank(),
-#'         panel.grid.major.x = element_blank(),
-#'         panel.grid.minor.x = element_blank())
+#'   theme_phewas()
 #'
 scale_color_phecode <- function(){
 
