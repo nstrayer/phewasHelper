@@ -42,6 +42,7 @@ join_phecode_info <- function(data_w_phecode,
 
   phecode_col_missing <- !(phecode_column %in% colnames(data_w_phecode))
 
+  # cols_to_join = c("description", "phecode_index", "a cool col")
   if(phecode_col_missing){
     stop("Missing phecode column in data. Make sure phecode_column argument is correct.")
   }
@@ -49,6 +50,18 @@ join_phecode_info <- function(data_w_phecode,
   has_any_appended_cols <- cols_to_join %in% colnames(data_w_phecode)
   if(any(has_any_appended_cols)){
     warning("Existing info columns in input. Joined info columns will be suffixed with '_info'.")
+  }
+
+  available_info_cols <- colnames(phecode_descriptions)
+
+  bad_requests <- available_info_cols[!(cols_to_join %in% available_info_cols)]
+
+  if(length(bad_requests) > 0){
+    stop(paste0("The request phecode information (",
+                paste(bad_requests, collapse = ","),
+                (if(length(bad_requests) == 1) ") is" else "are"),
+                " unavailable. Possible information values include: ",
+                paste(available_info_cols, collapse = ", ")))
   }
 
 
