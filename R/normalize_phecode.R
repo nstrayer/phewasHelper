@@ -4,6 +4,7 @@
 #' up in a million different formats. This standardizes everything to a 6 digits
 #' number.
 #'
+#'
 #' @param codes A vector of phecodes in whatever format your heart desires. E.g.
 #'   `8.00`, `8`, `0008.0`, ...
 #'
