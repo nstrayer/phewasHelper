@@ -61,7 +61,7 @@ head(phewas_data)
 
 Phecodes show up in about a million different formats. In our demo data the phecodes have been converted to a numeric value. This would be an issue if we tried to harmonize with data that stored the phecodes in a string. The function `normalize_phecodes` is designed to fix this problem. It takes any phecode array and coerces it to a standard zero-padded string. 
 
-```{r normalize-phecodes}
+```{r normalize_phecodes}
 phewas_data %>% 
   mutate(fixed_code = normalize_phecode(code)) %>% 
   head()
@@ -78,18 +78,26 @@ Another issue that is commonly encountered in PheWas results is wanting to know 
 
 `get_phecode_info()` is the simpler of the two. It takes as input an array of phecodes and returns an array of the desired information, either description or category. This is useful for adding individual columns to a dataframe. 
 
-```{r get-phecode-info}
+```{r get_phecode_info}
 phewas_data %>% 
   mutate(descript = get_phecode_info(code, 'description'),
          category = get_phecode_info(code, 'category')) %>% 
   head()
 ```
 
-For more a more complete labeling of phecode information the function `join_phecode_info()` modifies a passsed dataframe by appending description, category, and category number columns. 
+For more a more complete labeling of phecode information the function `join_phecode_info()` modifies a passsed dataframe by appending a desired subset of description, category, category number, and phecode index columns. 
 
-```{r}
+```{r join_phecode_info}
+# We can append all info available
+phewas_data %>% 
+  join_phecode_info(phecode_column = 'code') %>% 
+  head()
+
+
+# Or we can just extract what we need
 phewas_data <- phewas_data %>% 
-  join_phecode_info(phecode_column = 'code')
+  join_phecode_info(phecode_column = 'code',
+                    cols_to_join = c("description", "category", "phecode_index"))
 
 head(phewas_data)
 ```
@@ -99,11 +107,11 @@ head(phewas_data)
 
 Manhattan plots are commonly made of phewas results. Frequently the colors of the plots points are encoded by the categories. The default color palletes in ggplot2 and base-plot are not great and custom palletes like R color-brewer don't give you enough colors to work with all the categories. To deal with this `category_colors()` returns a mapping of phecode category to colors that can be used easily in your plots. 
 
-```{r}
+```{r plot-w-category_colors}
 library(ggplot2)
 
 phewas_data %>% 
-  ggplot(aes(x = phecode, y = val, color = category)) +
+  ggplot(aes(x = reorder(phecode, phecode_index), y = val, color = category)) +
   geom_point() +
   scale_color_manual(values = category_colors()) +
   theme(axis.ticks.x = element_blank(),
@@ -115,9 +123,9 @@ phewas_data %>%
 
 If just the color pallete is needed for `ggplot` then the function `scale_color_phecode()` makes this even easier. 
 
-```{r}
+```{r plot-w-scale_color_phecode}
 phewas_data %>% 
-  ggplot(aes(x = phecode, y = val, color = category)) +
+  ggplot(aes(x = reorder(phecode, phecode_index), y = val, color = category)) +
   geom_point() +
   scale_color_phecode() +
   theme(axis.ticks.x = element_blank(),

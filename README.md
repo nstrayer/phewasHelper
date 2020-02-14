@@ -31,12 +31,12 @@ head(phewas_data)
 #> # A tibble: 6 x 2
 #>    code    val
 #>   <dbl>  <dbl>
-#> 1  323.  0.949
-#> 2  250. -2.82 
-#> 3  362. -1.84 
-#> 4  721  -1.93 
-#> 5  363. -3.36 
-#> 6  527.  2.97
+#> 1  516.  2.70 
+#> 2  694  -0.753
+#> 3  620. -0.357
+#> 4  947   0.201
+#> 5  165  -0.323
+#> 6  798. -2.63
 ```
 
 ### Normalizing phecodes
@@ -55,12 +55,12 @@ phewas_data %>%
 #> # A tibble: 6 x 3
 #>    code    val fixed_code
 #>   <dbl>  <dbl> <chr>     
-#> 1  323.  0.949 323.20    
-#> 2  250. -2.82  250.11    
-#> 3  362. -1.84  362.20    
-#> 4  721  -1.93  721.00    
-#> 5  363. -3.36  363.40    
-#> 6  527.  2.97  527.20
+#> 1  516.  2.70  516.10    
+#> 2  694  -0.753 694.00    
+#> 3  620. -0.357 620.10    
+#> 4  947   0.201 947.00    
+#> 5  165  -0.323 165.00    
+#> 6  798. -2.63  798.10
 
 
 # Update our original data with normalized phecodes
@@ -85,34 +85,52 @@ phewas_data %>%
          category = get_phecode_info(code, 'category')) %>% 
   head()
 #> # A tibble: 6 x 4
-#>   code      val descript                                       category         
-#>   <chr>   <dbl> <chr>                                          <chr>            
-#> 1 323.20  0.949 Acute (transverse) myelitis                    neurological     
-#> 2 250.11 -2.82  Type 1 diabetes with ketoacidosis              endocrine/metabo…
-#> 3 362.20 -1.84  Degeneration of macula and posterior pole of … sense organs     
-#> 4 721.00 -1.93  Spondylosis and allied disorders               musculoskeletal  
-#> 5 363.40 -3.36  Choroidal degenerations                        sense organs     
-#> 6 527.20  2.97  Sialoadenitis                                  digestive
+#>   code      val descript                             category     
+#>   <chr>   <dbl> <chr>                                <chr>        
+#> 1 516.10  2.70  Hemoptysis                           respiratory  
+#> 2 694.00 -0.753 Dyschromia and Vitiligo              dermatologic 
+#> 3 620.10 -0.357 Dysplasia of cervix                  genitourinary
+#> 4 947.00  0.201 Urticaria                            dermatologic 
+#> 5 165.00 -0.323 Cancer within the respiratory system neoplasms    
+#> 6 798.10 -2.63  Chronic fatigue syndrome             symptoms
 ```
 
 For more a more complete labeling of phecode information the function
-`join_phecode_info()` modifies a passsed dataframe by appending
-description, category, and category number columns.
+`join_phecode_info()` modifies a passsed dataframe by appending a
+desired subset of description, category, category number, and phecode
+index columns.
 
 ``` r
+# We can append all info available
+phewas_data %>% 
+  join_phecode_info(phecode_column = 'code') %>% 
+  head()
+#> # A tibble: 6 x 6
+#>   phecode    val description            category   category_number phecode_index
+#>   <chr>    <dbl> <chr>                  <chr>                <dbl>         <int>
+#> 1 516.10   2.70  Hemoptysis             respirato…               9           982
+#> 2 694.00  -0.753 Dyschromia and Vitili… dermatolo…              13          1411
+#> 3 620.10  -0.357 Dysplasia of cervix    genitouri…              11          1294
+#> 4 947.00   0.201 Urticaria              dermatolo…              13          1482
+#> 5 165.00  -0.323 Cancer within the res… neoplasms                2            97
+#> 6 798.10  -2.63  Chronic fatigue syndr… symptoms                17          1719
+
+
+# Or we can just extract what we need
 phewas_data <- phewas_data %>% 
-  join_phecode_info(phecode_column = 'code')
+  join_phecode_info(phecode_column = 'code',
+                    cols_to_join = c("description", "category", "phecode_index"))
 
 head(phewas_data)
 #> # A tibble: 6 x 5
-#>   phecode    val description                       category      category_number
-#>   <chr>    <dbl> <chr>                             <chr>                   <int>
-#> 1 323.20   0.949 Acute (transverse) myelitis       neurological                6
-#> 2 250.11  -2.82  Type 1 diabetes with ketoacidosis endocrine/me…               3
-#> 3 362.20  -1.84  Degeneration of macula and poste… sense organs                7
-#> 4 721.00  -1.93  Spondylosis and allied disorders  musculoskele…              14
-#> 5 363.40  -3.36  Choroidal degenerations           sense organs                7
-#> 6 527.20   2.97  Sialoadenitis                     digestive                  10
+#>   phecode    val description                          category     phecode_index
+#>   <chr>    <dbl> <chr>                                <chr>                <int>
+#> 1 516.10   2.70  Hemoptysis                           respiratory            982
+#> 2 694.00  -0.753 Dyschromia and Vitiligo              dermatologic          1411
+#> 3 620.10  -0.357 Dysplasia of cervix                  genitourina…          1294
+#> 4 947.00   0.201 Urticaria                            dermatologic          1482
+#> 5 165.00  -0.323 Cancer within the respiratory system neoplasms               97
+#> 6 798.10  -2.63  Chronic fatigue syndrome             symptoms              1719
 ```
 
 ### Coloring PheWas plots
@@ -129,7 +147,7 @@ plots.
 library(ggplot2)
 
 phewas_data %>% 
-  ggplot(aes(x = phecode, y = val, color = category)) +
+  ggplot(aes(x = reorder(phecode, phecode_index), y = val, color = category)) +
   geom_point() +
   scale_color_manual(values = category_colors()) +
   theme(axis.ticks.x = element_blank(),
@@ -138,14 +156,14 @@ phewas_data %>%
         panel.grid.minor.x = element_blank())
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-plot-w-category_colors-1.png" width="100%" />
 
 If just the color pallete is needed for `ggplot` then the function
 `scale_color_phecode()` makes this even easier.
 
 ``` r
 phewas_data %>% 
-  ggplot(aes(x = phecode, y = val, color = category)) +
+  ggplot(aes(x = reorder(phecode, phecode_index), y = val, color = category)) +
   geom_point() +
   scale_color_phecode() +
   theme(axis.ticks.x = element_blank(),
@@ -154,4 +172,4 @@ phewas_data %>%
         panel.grid.minor.x = element_blank())
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-plot-w-scale_color_phecode-1.png" width="100%" />
