@@ -36,3 +36,6 @@ data_w_phecode \%>\%
   join_phecode_info('jd_code')
 
 }
+\seealso{
+get_phecode_info
+}

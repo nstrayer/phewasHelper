@@ -45,3 +45,6 @@ bind_cols(
 )
 
 }
+\seealso{
+get_phecode_info
+}

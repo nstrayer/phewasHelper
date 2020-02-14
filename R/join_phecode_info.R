@@ -7,6 +7,9 @@
 #' @param phecode_column Name of column that contains phecodes
 #'
 #' @return input dataframe with three columns added to it.
+#'
+#' @seealso get_phecode_info
+#'
 #' @export
 #'
 #' @examples

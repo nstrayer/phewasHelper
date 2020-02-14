@@ -9,6 +9,9 @@
 #'
 #' @return Vector of `what` is description or category, dataframe with phecode,
 #'   description, and category if `what = 'all'`.
+#'
+#' @seealso get_phecode_info
+#'
 #' @export
 #'
 #' @examples
