@@ -4,19 +4,27 @@
 \alias{join_phecode_info}
 \title{Join data with phecode information}
 \usage{
-join_phecode_info(data_w_phecode, phecode_column = "phecode")
+join_phecode_info(
+  data_w_phecode,
+  phecode_column = "phecode",
+  cols_to_join = c("description", "category", "category_number", "phecode_index")
+)
 }
 \arguments{
 \item{data_w_phecode}{Dataframe with a phecode column.}
 
 \item{phecode_column}{Name of column that contains phecodes}
+
+\item{cols_to_join}{Which columns of phecode info do you want appended to
+dataframe?}
 }
 \value{
 input dataframe with three columns added to it.
 }
 \description{
-Takes a dataframe with a phecode column in it and adds three new columns
-about the phecode to it: \code{description}, \code{category}, and \code{category_number}.
+Takes a dataframe with a phecode column in it and desired new phecode
+information columns to it: \code{description}, \code{category}, \code{category_number}, and
+\code{phecode_index} (the relative position in ordered phenome of phecode).
 }
 \examples{
 
@@ -34,6 +42,10 @@ data_w_phecode \%>\%
 data_w_phecode \%>\%
   rename(jd_code = phecode) \%>\%
   join_phecode_info('jd_code')
+
+# Can choose which columns are added
+data_w_phecode \%>\%
+  join_phecode_info(cols_to_join = c("description", "phecode_index"))
 
 }
 \seealso{
