@@ -66,7 +66,6 @@ phewas_data %>%
   mutate(fixed_code = normalize_phecode(code)) %>% 
   head()
 
-
 # Update our original data with normalized phecodes
 phewas_data <- phewas_data %>% 
   mutate(code = normalize_phecode(code))
@@ -133,4 +132,28 @@ phewas_data %>%
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank())
 ```
+
+
+### ggplot theme
+
+One last helper is a theme object that lets you get rid of the tick marks for each phecode without the laboreous typing of `theme(axis.ticks.x = ...)` repeatedly. 
+
+```{r}
+phewas_data %>% 
+  ggplot(aes(x = reorder(phecode, phecode_index), y = val, color = category)) +
+  geom_point() +
+  scale_color_manual(values = category_colors()) +
+  theme_phewas()
+```
+
+It can also be used on phecode-on-y-axis plots.
+
+```{r}
+phewas_data %>% 
+  ggplot(aes(y = reorder(phecode, phecode_index), x = val, color = category)) +
+  geom_point() +
+  scale_color_manual(values = category_colors()) +
+  theme_phewas(phecode_on_x_axis = FALSE)
+```
+
 

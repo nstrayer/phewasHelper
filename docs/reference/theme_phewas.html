@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Normalize a phecode vector to padded character — normalize_phecode • phewasHelper</title>
+<title>Phewas friendly theming for ggplot2 — theme_phewas • phewasHelper</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,9 @@
 
 
 
-<meta property="og:title" content="Normalize a phecode vector to padded character — normalize_phecode" />
-<meta property="og:description" content="Depending on if a phecode was ever converted to a number or not it can show
-up in a million different formats. This standardizes everything to a 6 digits
-number." />
+<meta property="og:title" content="Phewas friendly theming for ggplot2 — theme_phewas" />
+<meta property="og:description" content="Turns off the plots attempt to write out each individual phecode name and
+ticks so plot renders faster and cleaner." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -102,35 +101,53 @@ number." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Normalize a phecode vector to padded character</h1>
+    <h1>Phewas friendly theming for ggplot2</h1>
     
-    <div class="hidden name"><code>normalize_phecode.Rd</code></div>
+    <div class="hidden name"><code>theme_phewas.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Depending on if a phecode was ever converted to a number or not it can show
-up in a million different formats. This standardizes everything to a 6 digits
-number.</p>
+    <p>Turns off the plots attempt to write out each individual phecode name and
+ticks so plot renders faster and cleaner.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>normalize_phecode</span>(<span class='no'>codes</span>)</pre>
+    <pre class="usage"><span class='fu'>theme_phewas</span>(<span class='kw'>phecode_on_x_axis</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>codes</th>
-      <td><p>A vector of phecodes in whatever format your heart desires. E.g.
-<code>8.00</code>, <code>8</code>, <code>0008.0</code>, ...</p></td>
+      <th>phecode_on_x_axis</th>
+      <td><p>Is the phecode in the plot on the x axis?</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A vector of 0-padded phecodes.</p>
+    
+
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>normalize_phecode</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>8</span>, <span class='fl'>8.1</span>, <span class='fl'>9.2</span>))</div><div class='output co'>#&gt; [1] "008.00" "008.10" "009.20"</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample.html'>sample_n</a></span>(<span class='no'>phecode_descriptions</span>, <span class='fl'>300</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/join.html'>left_join</a></span>(<span class='fu'><a href='category_colors.html'>category_colors</a></span>(<span class='kw'>return_df</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>
+              <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>bias</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/n.html'>n</a></span>(), <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>3</span>)),
+            <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>'category'</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>val</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/n.html'>n</a></span>(), <span class='kw'>mean</span> <span class='kw'>=</span> <span class='no'>bias</span>))
+
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>data</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>phecode</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>val</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='no'>category</span>)) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>() +
+  <span class='fu'><a href='scale_color_phecode.html'>scale_color_phecode</a></span>() +
+  <span class='fu'>theme_phewas</span>()</div><div class='img'><img src='theme_phewas-1.png' alt='' width='700' height='433' /></div><div class='input'>
+
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>data</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>phecode</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>val</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='no'>category</span>)) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>() +
+  <span class='fu'><a href='scale_color_phecode.html'>scale_color_phecode</a></span>() +
+  <span class='fu'>theme_phewas</span>(<span class='kw'>phecode_on_x_axis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='theme_phewas-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

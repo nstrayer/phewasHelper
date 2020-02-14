@@ -31,12 +31,12 @@ head(phewas_data)
 #> # A tibble: 6 x 2
 #>    code    val
 #>   <dbl>  <dbl>
-#> 1  516.  2.70 
-#> 2  694  -0.753
-#> 3  620. -0.357
-#> 4  947   0.201
-#> 5  165  -0.323
-#> 6  798. -2.63
+#> 1  696. -5.59 
+#> 2  364.  4.56 
+#> 3  287   1.05 
+#> 4  428  -1.49 
+#> 5  990   0.173
+#> 6  327.  0.781
 ```
 
 ### Normalizing phecodes
@@ -55,13 +55,12 @@ phewas_data %>%
 #> # A tibble: 6 x 3
 #>    code    val fixed_code
 #>   <dbl>  <dbl> <chr>     
-#> 1  516.  2.70  516.10    
-#> 2  694  -0.753 694.00    
-#> 3  620. -0.357 620.10    
-#> 4  947   0.201 947.00    
-#> 5  165  -0.323 165.00    
-#> 6  798. -2.63  798.10
-
+#> 1  696. -5.59  696.40    
+#> 2  364.  4.56  364.10    
+#> 3  287   1.05  287.00    
+#> 4  428  -1.49  428.00    
+#> 5  990   0.173 990.00    
+#> 6  327.  0.781 327.31
 
 # Update our original data with normalized phecodes
 phewas_data <- phewas_data %>% 
@@ -85,14 +84,14 @@ phewas_data %>%
          category = get_phecode_info(code, 'category')) %>% 
   head()
 #> # A tibble: 6 x 4
-#>   code      val descript                             category     
-#>   <chr>   <dbl> <chr>                                <chr>        
-#> 1 516.10  2.70  Hemoptysis                           respiratory  
-#> 2 694.00 -0.753 Dyschromia and Vitiligo              dermatologic 
-#> 3 620.10 -0.357 Dysplasia of cervix                  genitourinary
-#> 4 947.00  0.201 Urticaria                            dermatologic 
-#> 5 165.00 -0.323 Cancer within the respiratory system neoplasms    
-#> 6 798.10 -2.63  Chronic fatigue syndrome             symptoms
+#>   code      val descript                                  category             
+#>   <chr>   <dbl> <chr>                                     <chr>                
+#> 1 696.40 -5.59  Psoriasis                                 dermatologic         
+#> 2 364.10  4.56  Corneal opacity                           sense organs         
+#> 3 287.00  1.05  Purpura and other hemorrhagic conditions  hematopoietic        
+#> 4 428.00 -1.49  Congestive heart failure; nonhypertensive circulatory system   
+#> 5 990.00  0.173 Effects radiation NOS                     injuries & poisonings
+#> 6 327.31  0.781 Central/nonobstroctive sleep apnea        neurological
 ```
 
 For more a more complete labeling of phecode information the function
@@ -106,14 +105,14 @@ phewas_data %>%
   join_phecode_info(phecode_column = 'code') %>% 
   head()
 #> # A tibble: 6 x 6
-#>   phecode    val description            category   category_number phecode_index
-#>   <chr>    <dbl> <chr>                  <chr>                <dbl>         <int>
-#> 1 516.10   2.70  Hemoptysis             respirato…               9           982
-#> 2 694.00  -0.753 Dyschromia and Vitili… dermatolo…              13          1411
-#> 3 620.10  -0.357 Dysplasia of cervix    genitouri…              11          1294
-#> 4 947.00   0.201 Urticaria              dermatolo…              13          1482
-#> 5 165.00  -0.323 Cancer within the res… neoplasms                2            97
-#> 6 798.10  -2.63  Chronic fatigue syndr… symptoms                17          1719
+#>   phecode    val description           category    category_number phecode_index
+#>   <chr>    <dbl> <chr>                 <chr>                 <dbl>         <int>
+#> 1 696.40  -5.59  Psoriasis             dermatolog…              13          1431
+#> 2 364.10   4.56  Corneal opacity       sense orga…               7           630
+#> 3 287.00   1.05  Purpura and other he… hematopoie…               4           423
+#> 4 428.00  -1.49  Congestive heart fai… circulator…               8           814
+#> 5 990.00   0.173 Effects radiation NOS injuries &…              18          1843
+#> 6 327.31   0.781 Central/nonobstrocti… neurologic…               6           528
 
 
 # Or we can just extract what we need
@@ -123,14 +122,14 @@ phewas_data <- phewas_data %>%
 
 head(phewas_data)
 #> # A tibble: 6 x 5
-#>   phecode    val description                          category     phecode_index
-#>   <chr>    <dbl> <chr>                                <chr>                <int>
-#> 1 516.10   2.70  Hemoptysis                           respiratory            982
-#> 2 694.00  -0.753 Dyschromia and Vitiligo              dermatologic          1411
-#> 3 620.10  -0.357 Dysplasia of cervix                  genitourina…          1294
-#> 4 947.00   0.201 Urticaria                            dermatologic          1482
-#> 5 165.00  -0.323 Cancer within the respiratory system neoplasms               97
-#> 6 798.10  -2.63  Chronic fatigue syndrome             symptoms              1719
+#>   phecode    val description                      category         phecode_index
+#>   <chr>    <dbl> <chr>                            <chr>                    <int>
+#> 1 696.40  -5.59  Psoriasis                        dermatologic              1431
+#> 2 364.10   4.56  Corneal opacity                  sense organs               630
+#> 3 287.00   1.05  Purpura and other hemorrhagic c… hematopoietic              423
+#> 4 428.00  -1.49  Congestive heart failure; nonhy… circulatory sys…           814
+#> 5 990.00   0.173 Effects radiation NOS            injuries & pois…          1843
+#> 6 327.31   0.781 Central/nonobstroctive sleep ap… neurological               528
 ```
 
 ### Coloring PheWas plots
@@ -173,3 +172,31 @@ phewas_data %>%
 ```
 
 <img src="man/figures/README-plot-w-scale_color_phecode-1.png" width="100%" />
+
+### ggplot theme
+
+One last helper is a theme object that lets you get rid of the tick
+marks for each phecode without the laboreous typing of
+`theme(axis.ticks.x = ...)` repeatedly.
+
+``` r
+phewas_data %>% 
+  ggplot(aes(x = reorder(phecode, phecode_index), y = val, color = category)) +
+  geom_point() +
+  scale_color_manual(values = category_colors()) +
+  theme_phewas()
+```
+
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+
+It can also be used on phecode-on-y-axis plots.
+
+``` r
+phewas_data %>% 
+  ggplot(aes(y = reorder(phecode, phecode_index), x = val, color = category)) +
+  geom_point() +
+  scale_color_manual(values = category_colors()) +
+  theme_phewas(phecode_on_x_axis = FALSE)
+```
+
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
