@@ -36,8 +36,9 @@
 
 
 <meta property="og:title" content="Join data with phecode information — join_phecode_info" />
-<meta property="og:description" content="Takes a dataframe with a phecode column in it and adds three new columns
-about the phecode to it: description, category, and category_number." />
+<meta property="og:description" content="Takes a dataframe with a phecode column in it and desired new phecode
+information columns to it: description, category, category_number, and
+phecode_index (the relative position in ordered phenome of phecode)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -107,11 +108,16 @@ about the phecode to it: description, category, and category_number." />
     </div>
 
     <div class="ref-description">
-    <p>Takes a dataframe with a phecode column in it and adds three new columns
-about the phecode to it: <code>description</code>, <code>category</code>, and <code>category_number</code>.</p>
+    <p>Takes a dataframe with a phecode column in it and desired new phecode
+information columns to it: <code>description</code>, <code>category</code>, <code>category_number</code>, and
+<code>phecode_index</code> (the relative position in ordered phenome of phecode).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>join_phecode_info</span>(<span class='no'>data_w_phecode</span>, <span class='kw'>phecode_column</span> <span class='kw'>=</span> <span class='st'>"phecode"</span>)</pre>
+    <pre class="usage"><span class='fu'>join_phecode_info</span>(
+  <span class='no'>data_w_phecode</span>,
+  <span class='kw'>phecode_column</span> <span class='kw'>=</span> <span class='st'>"phecode"</span>,
+  <span class='kw'>cols_to_join</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"description"</span>, <span class='st'>"category"</span>, <span class='st'>"category_number"</span>, <span class='st'>"phecode_index"</span>)
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -123,6 +129,11 @@ about the phecode to it: <code>description</code>, <code>category</code>, and <c
     <tr>
       <th>phecode_column</th>
       <td><p>Name of column that contains phecodes</p></td>
+    </tr>
+    <tr>
+      <th>cols_to_join</th>
+      <td><p>Which columns of phecode info do you want appended to
+dataframe?</p></td>
     </tr>
     </table>
 
@@ -143,36 +154,52 @@ about the phecode to it: <code>description</code>, <code>category</code>, and <c
 
 <span class='co'># Default values</span>
 <span class='no'>data_w_phecode</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>join_phecode_info</span>()</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 100 x 5</span><span>
-#&gt;    phecode  random description                    category       category_number
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 958.10  -</span><span style='color: #BB0000;'>1.45</span><span>   Postoperative shock            injuries &amp; po…              18
-#&gt; </span><span style='color: #555555;'> 2</span><span> 244.30   0.941  Iodine hypothyroidism          endocrine/met…               3
-#&gt; </span><span style='color: #555555;'> 3</span><span> 585.40  -</span><span style='color: #BB0000;'>0.339</span><span>  Chronic kidney disease, Stage… genitourinary               11
-#&gt; </span><span style='color: #555555;'> 4</span><span> 365.20  -</span><span style='color: #BB0000;'>0.075</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span> Primary angle-closure glaucoma sense organs                 7
-#&gt; </span><span style='color: #555555;'> 5</span><span> 737.30   0.040</span><span style='text-decoration: underline;'>2</span><span> Kyphoscoliosis and scoliosis   musculoskelet…              14
-#&gt; </span><span style='color: #555555;'> 6</span><span> 274.21   0.124  Chondrocalcinosis              endocrine/met…               3
-#&gt; </span><span style='color: #555555;'> 7</span><span> 473.40  -</span><span style='color: #BB0000;'>0.998</span><span>  Voice disturbance              respiratory                  9
-#&gt; </span><span style='color: #555555;'> 8</span><span> 960.10   1.23   Adverse effects of antibacter… injuries &amp; po…              18
-#&gt; </span><span style='color: #555555;'> 9</span><span> 529.10   0.340  Glossitis                      digestive                   10
-#&gt; </span><span style='color: #555555;'>10</span><span> 244.10  -</span><span style='color: #BB0000;'>0.473</span><span>  Secondary hypothyroidism       endocrine/met…               3
+  <span class='fu'>join_phecode_info</span>()</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 100 x 6</span><span>
+#&gt;    phecode  random description           category  category_number phecode_index
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> 965.10  -</span><span style='color: #BB0000;'>1.45</span><span>   Opiates and related … injuries…              18          </span><span style='text-decoration: underline;'>1</span><span>818
+#&gt; </span><span style='color: #555555;'> 2</span><span> 250.14   0.941  Type 1 diabetes with… endocrin…               3           239
+#&gt; </span><span style='color: #555555;'> 3</span><span> 592.10  -</span><span style='color: #BB0000;'>0.339</span><span>  Cystitis              genitour…              11          </span><span style='text-decoration: underline;'>1</span><span>189
+#&gt; </span><span style='color: #555555;'> 4</span><span> 368.40  -</span><span style='color: #BB0000;'>0.075</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span> Visual field defects  sense or…               7           656
+#&gt; </span><span style='color: #555555;'> 5</span><span> 740.11   0.040</span><span style='text-decoration: underline;'>2</span><span> Osteoarthrosis, loca… musculos…              14          </span><span style='text-decoration: underline;'>1</span><span>587
+#&gt; </span><span style='color: #555555;'> 6</span><span> 276.42   0.124  Alkalosis             endocrin…               3           356
+#&gt; </span><span style='color: #555555;'> 7</span><span> 480.30  -</span><span style='color: #BB0000;'>0.998</span><span>  Pneumonia due to fun… respirat…               9           929
+#&gt; </span><span style='color: #555555;'> 8</span><span> 966.00   1.23   Poisoning by anticon… injuries…              18          </span><span style='text-decoration: underline;'>1</span><span>821
+#&gt; </span><span style='color: #555555;'> 9</span><span> 531.10   0.340  Hemorrhage from gast… digestive              10          </span><span style='text-decoration: underline;'>1</span><span>049
+#&gt; </span><span style='color: #555555;'>10</span><span> 250.12  -</span><span style='color: #BB0000;'>0.473</span><span>  Type 1 diabetes with… endocrin…               3           237
 #&gt; </span><span style='color: #555555;'># … with 90 more rows</span><span></div><div class='input'>
 <span class='co'># Can change name of phecode column</span>
 <span class='no'>data_w_phecode</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>rename</a></span>(<span class='kw'>jd_code</span> <span class='kw'>=</span> <span class='no'>phecode</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>join_phecode_info</span>(<span class='st'>'jd_code'</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 100 x 5</span><span>
-#&gt;    phecode  random description                    category       category_number
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 958.10  -</span><span style='color: #BB0000;'>1.45</span><span>   Postoperative shock            injuries &amp; po…              18
-#&gt; </span><span style='color: #555555;'> 2</span><span> 244.30   0.941  Iodine hypothyroidism          endocrine/met…               3
-#&gt; </span><span style='color: #555555;'> 3</span><span> 585.40  -</span><span style='color: #BB0000;'>0.339</span><span>  Chronic kidney disease, Stage… genitourinary               11
-#&gt; </span><span style='color: #555555;'> 4</span><span> 365.20  -</span><span style='color: #BB0000;'>0.075</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span> Primary angle-closure glaucoma sense organs                 7
-#&gt; </span><span style='color: #555555;'> 5</span><span> 737.30   0.040</span><span style='text-decoration: underline;'>2</span><span> Kyphoscoliosis and scoliosis   musculoskelet…              14
-#&gt; </span><span style='color: #555555;'> 6</span><span> 274.21   0.124  Chondrocalcinosis              endocrine/met…               3
-#&gt; </span><span style='color: #555555;'> 7</span><span> 473.40  -</span><span style='color: #BB0000;'>0.998</span><span>  Voice disturbance              respiratory                  9
-#&gt; </span><span style='color: #555555;'> 8</span><span> 960.10   1.23   Adverse effects of antibacter… injuries &amp; po…              18
-#&gt; </span><span style='color: #555555;'> 9</span><span> 529.10   0.340  Glossitis                      digestive                   10
-#&gt; </span><span style='color: #555555;'>10</span><span> 244.10  -</span><span style='color: #BB0000;'>0.473</span><span>  Secondary hypothyroidism       endocrine/met…               3
+  <span class='fu'>join_phecode_info</span>(<span class='st'>'jd_code'</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 100 x 6</span><span>
+#&gt;    phecode  random description           category  category_number phecode_index
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> 965.10  -</span><span style='color: #BB0000;'>1.45</span><span>   Opiates and related … injuries…              18          </span><span style='text-decoration: underline;'>1</span><span>818
+#&gt; </span><span style='color: #555555;'> 2</span><span> 250.14   0.941  Type 1 diabetes with… endocrin…               3           239
+#&gt; </span><span style='color: #555555;'> 3</span><span> 592.10  -</span><span style='color: #BB0000;'>0.339</span><span>  Cystitis              genitour…              11          </span><span style='text-decoration: underline;'>1</span><span>189
+#&gt; </span><span style='color: #555555;'> 4</span><span> 368.40  -</span><span style='color: #BB0000;'>0.075</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span> Visual field defects  sense or…               7           656
+#&gt; </span><span style='color: #555555;'> 5</span><span> 740.11   0.040</span><span style='text-decoration: underline;'>2</span><span> Osteoarthrosis, loca… musculos…              14          </span><span style='text-decoration: underline;'>1</span><span>587
+#&gt; </span><span style='color: #555555;'> 6</span><span> 276.42   0.124  Alkalosis             endocrin…               3           356
+#&gt; </span><span style='color: #555555;'> 7</span><span> 480.30  -</span><span style='color: #BB0000;'>0.998</span><span>  Pneumonia due to fun… respirat…               9           929
+#&gt; </span><span style='color: #555555;'> 8</span><span> 966.00   1.23   Poisoning by anticon… injuries…              18          </span><span style='text-decoration: underline;'>1</span><span>821
+#&gt; </span><span style='color: #555555;'> 9</span><span> 531.10   0.340  Hemorrhage from gast… digestive              10          </span><span style='text-decoration: underline;'>1</span><span>049
+#&gt; </span><span style='color: #555555;'>10</span><span> 250.12  -</span><span style='color: #BB0000;'>0.473</span><span>  Type 1 diabetes with… endocrin…               3           237
+#&gt; </span><span style='color: #555555;'># … with 90 more rows</span><span></div><div class='input'>
+<span class='co'># Can choose which columns are added</span>
+<span class='no'>data_w_phecode</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>join_phecode_info</span>(<span class='kw'>cols_to_join</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"description"</span>, <span class='st'>"phecode_index"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 100 x 4</span><span>
+#&gt;    phecode  random description                                     phecode_index
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                                                   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> 965.10  -</span><span style='color: #BB0000;'>1.45</span><span>   Opiates and related narcotics causing adverse …          </span><span style='text-decoration: underline;'>1</span><span>818
+#&gt; </span><span style='color: #555555;'> 2</span><span> 250.14   0.941  Type 1 diabetes with neurological manifestatio…           239
+#&gt; </span><span style='color: #555555;'> 3</span><span> 592.10  -</span><span style='color: #BB0000;'>0.339</span><span>  Cystitis                                                 </span><span style='text-decoration: underline;'>1</span><span>189
+#&gt; </span><span style='color: #555555;'> 4</span><span> 368.40  -</span><span style='color: #BB0000;'>0.075</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span> Visual field defects                                      656
+#&gt; </span><span style='color: #555555;'> 5</span><span> 740.11   0.040</span><span style='text-decoration: underline;'>2</span><span> Osteoarthrosis, localized, primary                       </span><span style='text-decoration: underline;'>1</span><span>587
+#&gt; </span><span style='color: #555555;'> 6</span><span> 276.42   0.124  Alkalosis                                                 356
+#&gt; </span><span style='color: #555555;'> 7</span><span> 480.30  -</span><span style='color: #BB0000;'>0.998</span><span>  Pneumonia due to fungus (mycoses)                         929
+#&gt; </span><span style='color: #555555;'> 8</span><span> 966.00   1.23   Poisoning by anticonvulsants and anti-Parkinso…          </span><span style='text-decoration: underline;'>1</span><span>821
+#&gt; </span><span style='color: #555555;'> 9</span><span> 531.10   0.340  Hemorrhage from gastrointestinal ulcer                   </span><span style='text-decoration: underline;'>1</span><span>049
+#&gt; </span><span style='color: #555555;'>10</span><span> 250.12  -</span><span style='color: #BB0000;'>0.473</span><span>  Type 1 diabetes with renal manifestations                 237
 #&gt; </span><span style='color: #555555;'># … with 90 more rows</span><span></div><div class='input'>
 </div></span></pre>
   </div>
