@@ -29,14 +29,14 @@ library(phewasHelper)
 
 head(phewas_data)
 #> # A tibble: 6 x 2
-#>    code   val
-#>   <dbl> <dbl>
-#> 1  324  -5.85
-#> 2  389. -4.01
-#> 3  458. -2.89
-#> 4  245. -1.47
-#> 5  747. -2.81
-#> 6  562  -1.48
+#>    code    val
+#>   <dbl>  <dbl>
+#> 1  323.  0.949
+#> 2  250. -2.82 
+#> 3  362. -1.84 
+#> 4  721  -1.93 
+#> 5  363. -3.36 
+#> 6  527.  2.97
 ```
 
 ### Normalizing phecodes
@@ -53,14 +53,14 @@ phewas_data %>%
   mutate(fixed_code = normalize_phecode(code)) %>% 
   head()
 #> # A tibble: 6 x 3
-#>    code   val fixed_code
-#>   <dbl> <dbl> <chr>     
-#> 1  324  -5.85 324.00    
-#> 2  389. -4.01 389.20    
-#> 3  458. -2.89 458.20    
-#> 4  245. -1.47 245.10    
-#> 5  747. -2.81 747.10    
-#> 6  562  -1.48 562.00
+#>    code    val fixed_code
+#>   <dbl>  <dbl> <chr>     
+#> 1  323.  0.949 323.20    
+#> 2  250. -2.82  250.11    
+#> 3  362. -1.84  362.20    
+#> 4  721  -1.93  721.00    
+#> 5  363. -3.36  363.40    
+#> 6  527.  2.97  527.20
 
 
 # Update our original data with normalized phecodes
@@ -85,14 +85,14 @@ phewas_data %>%
          category = get_phecode_info(code, 'category')) %>% 
   head()
 #> # A tibble: 6 x 4
-#>   code     val descript                              category            
-#>   <chr>  <dbl> <chr>                                 <chr>               
-#> 1 324.00 -5.85 Other CNS infection and poliomyelitis neurological        
-#> 2 389.20 -4.01 Conductive hearing loss               sense organs        
-#> 3 458.20 -2.89 Iatrogenic hypotension                circulatory system  
-#> 4 245.10 -1.47 Thyroiditis, acute and subacute       endocrine/metabolic 
-#> 5 747.10 -2.81 Cardiac congenital anomalies          congenital anomalies
-#> 6 562.00 -1.48 Diverticulosis and diverticulitis     digestive
+#>   code      val descript                                       category         
+#>   <chr>   <dbl> <chr>                                          <chr>            
+#> 1 323.20  0.949 Acute (transverse) myelitis                    neurological     
+#> 2 250.11 -2.82  Type 1 diabetes with ketoacidosis              endocrine/metabo…
+#> 3 362.20 -1.84  Degeneration of macula and posterior pole of … sense organs     
+#> 4 721.00 -1.93  Spondylosis and allied disorders               musculoskeletal  
+#> 5 363.40 -3.36  Choroidal degenerations                        sense organs     
+#> 6 527.20  2.97  Sialoadenitis                                  digestive
 ```
 
 For more a more complete labeling of phecode information the function
@@ -105,14 +105,14 @@ phewas_data <- phewas_data %>%
 
 head(phewas_data)
 #> # A tibble: 6 x 5
-#>   phecode   val description                     category         category_number
-#>   <chr>   <dbl> <chr>                           <chr>                      <int>
-#> 1 324.00  -5.85 Other CNS infection and poliom… neurological                   6
-#> 2 389.20  -4.01 Conductive hearing loss         sense organs                   7
-#> 3 458.20  -2.89 Iatrogenic hypotension          circulatory sys…               8
-#> 4 245.10  -1.47 Thyroiditis, acute and subacute endocrine/metab…               3
-#> 5 747.10  -2.81 Cardiac congenital anomalies    congenital anom…              15
-#> 6 562.00  -1.48 Diverticulosis and diverticuli… digestive                     10
+#>   phecode    val description                       category      category_number
+#>   <chr>    <dbl> <chr>                             <chr>                   <int>
+#> 1 323.20   0.949 Acute (transverse) myelitis       neurological                6
+#> 2 250.11  -2.82  Type 1 diabetes with ketoacidosis endocrine/me…               3
+#> 3 362.20  -1.84  Degeneration of macula and poste… sense organs                7
+#> 4 721.00  -1.93  Spondylosis and allied disorders  musculoskele…              14
+#> 5 363.40  -3.36  Choroidal degenerations           sense organs                7
+#> 6 527.20   2.97  Sialoadenitis                     digestive                  10
 ```
 
 ### Coloring PheWas plots

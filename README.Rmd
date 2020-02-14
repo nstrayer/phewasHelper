@@ -9,17 +9,17 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%",
+  fig.retina = TRUE
 )
-
 
 library(dplyr)
 library(phewasHelper)
 
 # Simulate some random data associated with phecodes
 phewas_data <- sample_n(phecode_descriptions, 300) %>%
-  left_join(category_colors(return_df = TRUE) %>% 
-              mutate(bias = rnorm(n(), sd = 3)),
+  left_join(mutate(category_colors(return_df = TRUE),
+                   bias = rnorm(n(), sd = 3)),
             by = 'category') %>% 
   mutate(val = rnorm(n(), mean = bias),
          code = as.numeric(phecode)) %>% 
@@ -99,7 +99,7 @@ head(phewas_data)
 
 Manhattan plots are commonly made of phewas results. Frequently the colors of the plots points are encoded by the categories. The default color palletes in ggplot2 and base-plot are not great and custom palletes like R color-brewer don't give you enough colors to work with all the categories. To deal with this `category_colors()` returns a mapping of phecode category to colors that can be used easily in your plots. 
 
-```{r, fig.height=8}
+```{r}
 library(ggplot2)
 
 phewas_data %>% 

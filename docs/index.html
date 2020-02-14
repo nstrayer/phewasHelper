@@ -81,14 +81,14 @@
 <a class="sourceLine" id="cb2-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(phewas_data)</a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; # A tibble: 6 x 2</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;    code   val</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 1  324  -5.85</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 2  389. -4.01</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 3  458. -2.89</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 4  245. -1.47</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 5  747. -2.81</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 6  562  -1.48</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;    code    val</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 1  323.  0.949</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 2  250. -2.82 </span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 3  362. -1.84 </span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 4  721  -1.93 </span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 5  363. -3.36 </span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 6  527.  2.97</span></a></code></pre></div>
 <div id="normalizing-phecodes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#normalizing-phecodes" class="anchor"></a>Normalizing phecodes</h3>
@@ -97,14 +97,14 @@
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">fixed_code =</span> <span class="kw"><a href="reference/normalize_phecode.html">normalize_phecode</a></span>(code)) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>()</a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; # A tibble: 6 x 3</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt;    code   val fixed_code</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     </span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 1  324  -5.85 324.00    </span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; 2  389. -4.01 389.20    </span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 3  458. -2.89 458.20    </span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 4  245. -1.47 245.10    </span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 5  747. -2.81 747.10    </span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 6  562  -1.48 562.00</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt;    code    val fixed_code</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     </span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 1  323.  0.949 323.20    </span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; 2  250. -2.82  250.11    </span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 3  362. -1.84  362.20    </span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 4  721  -1.93  721.00    </span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 5  363. -3.36  363.40    </span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 6  527.  2.97  527.20</span></a>
 <a class="sourceLine" id="cb3-13" data-line-number="13"></a>
 <a class="sourceLine" id="cb3-14" data-line-number="14"></a>
 <a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co"># Update our original data with normalized phecodes</span></a>
@@ -121,28 +121,28 @@
 <a class="sourceLine" id="cb4-3" data-line-number="3">         <span class="dt">category =</span> <span class="kw"><a href="reference/get_phecode_info.html">get_phecode_info</a></span>(code, <span class="st">'category'</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>()</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; # A tibble: 6 x 4</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;   code     val descript                              category            </span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;                                 &lt;chr&gt;               </span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 1 324.00 -5.85 Other CNS infection and poliomyelitis neurological        </span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 2 389.20 -4.01 Conductive hearing loss               sense organs        </span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 3 458.20 -2.89 Iatrogenic hypotension                circulatory system  </span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; 4 245.10 -1.47 Thyroiditis, acute and subacute       endocrine/metabolic </span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; 5 747.10 -2.81 Cardiac congenital anomalies          congenital anomalies</span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; 6 562.00 -1.48 Diverticulosis and diverticulitis     digestive</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;   code      val descript                                       category         </span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;                                          &lt;chr&gt;            </span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 1 323.20  0.949 Acute (transverse) myelitis                    neurological     </span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 2 250.11 -2.82  Type 1 diabetes with ketoacidosis              endocrine/metabo…</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 3 362.20 -1.84  Degeneration of macula and posterior pole of … sense organs     </span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; 4 721.00 -1.93  Spondylosis and allied disorders               musculoskeletal  </span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; 5 363.40 -3.36  Choroidal degenerations                        sense organs     </span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; 6 527.20  2.97  Sialoadenitis                                  digestive</span></a></code></pre></div>
 <p>For more a more complete labeling of phecode information the function <code><a href="reference/join_phecode_info.html">join_phecode_info()</a></code> modifies a passsed dataframe by appending description, category, and category number columns.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">phewas_data &lt;-<span class="st"> </span>phewas_data <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/join_phecode_info.html">join_phecode_info</a></span>(<span class="dt">phecode_column =</span> <span class="st">'code'</span>)</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(phewas_data)</a>
 <a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; # A tibble: 6 x 5</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;   phecode   val description                     category         category_number</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;                           &lt;chr&gt;                      &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 1 324.00  -5.85 Other CNS infection and poliom… neurological                   6</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; 2 389.20  -4.01 Conductive hearing loss         sense organs                   7</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; 3 458.20  -2.89 Iatrogenic hypotension          circulatory sys…               8</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; 4 245.10  -1.47 Thyroiditis, acute and subacute endocrine/metab…               3</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; 5 747.10  -2.81 Cardiac congenital anomalies    congenital anom…              15</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; 6 562.00  -1.48 Diverticulosis and diverticuli… digestive                     10</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;   phecode    val description                       category      category_number</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;                             &lt;chr&gt;                   &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 1 323.20   0.949 Acute (transverse) myelitis       neurological                6</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; 2 250.11  -2.82  Type 1 diabetes with ketoacidosis endocrine/me…               3</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; 3 362.20  -1.84  Degeneration of macula and poste… sense organs                7</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; 4 721.00  -1.93  Spondylosis and allied disorders  musculoskele…              14</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; 5 363.40  -3.36  Choroidal degenerations           sense organs                7</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; 6 527.20   2.97  Sialoadenitis                     digestive                  10</span></a></code></pre></div>
 </div>
 <div id="coloring-phewas-plots" class="section level3">
 <h3 class="hasAnchor">
