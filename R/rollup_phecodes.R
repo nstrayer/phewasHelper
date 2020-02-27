@@ -1,8 +1,9 @@
 #' Rollup phecode counts
 #'
 #' Takes phecodes that have been coded without rollup - E.g. existance of code
-#' 008.10 does not imply the existance of 008.00 - and produces a rolledud
-#' version of the dataset.
+#' 008.10 does not imply the existance of 008.00 - and produces a rolledup
+#' version of the dataset. Works with plain patient-phecode pairs and also with
+#' patient-code-count triplets.
 #'
 #' @param patient_code_counts Data containing patient ids, phecodes, and counts
 #'   of those phecodes.
@@ -11,7 +12,8 @@
 #' @param phecode_col Unquoted name of the column containing phecodes in passed
 #'   dataframe.
 #' @param count_col Unquoted name of the column containing counts of phecodes in
-#'   passed dataframe.
+#'   passed dataframe. Leave empty if just passing binary patient-code
+#'   occurances
 #'
 #' @return Dataframe in same format as passed `patient_code_counts` with code
 #'   counts rolled up. This will most likely be longer than the original dataset
@@ -23,7 +25,7 @@
 #' library(dplyr)
 #'
 #' patient_data <- tribble(
-#'   ~patient,    ~code, ~count,
+#'   ~patient,    ~code, ~counts,
 #'   1, "250.23",      7,
 #'   1, "250.25",      4,
 #'   1, "696.42",      1,
@@ -34,39 +36,69 @@
 #'   2, "751.11",      2,
 #' )
 #'
+#' # Rolls up counts for codes if they are present
 #' patient_data %>%
-#'   rollup_phecode_counts(patient_col = patient,
-#'                         phecode_col = code,
-#'                         count_col = count)
+#'   rollup_phecodes(patient_col = patient,
+#'                   phecode_col = code,
+#'                   count_col = counts)
 #'
-rollup_phecode_counts <- function(patient_code_counts,
-                                  patient_col,
-                                  phecode_col = phecode,
-                                  count_col = count){
+#' # Also works with just binary occurance pairs
+#' patient_data %>%
+#'   rollup_phecodes(patient_col = patient,
+#'                   phecode_col = code)
+#'
+rollup_phecodes <- function(patient_code_counts,
+                            patient_col,
+                            phecode_col = phecode,
+                            count_col = NULL){
 
-  with_hierarchy <- patient_code_counts %>%
-    dplyr::rename(count = {{count_col}},
-           phecode = {{phecode_col}}) %>%
+  # Did we get data with a counts in addition to patient code pairs? If so, we
+  # need to deal with count column.
+  count_mode <- !missing(count_col)
+
+  # Make sure we only carry around the columns we need (these data can be big)
+  if(count_mode){
+    rolled_up <- patient_code_counts %>%
+      select({{patient_col}}, {{phecode_col}}, {{count_col}})
+
+    count_col_name <- rlang::quo_text(rlang::enquo(count_col))
+  } else {
+    rolled_up <- patient_code_counts %>%
+      select({{patient_col}}, {{phecode_col}})
+  }
+
+  rolled_up <- rolled_up %>%
+    dplyr::rename(phecode = {{phecode_col}}) %>%
     dplyr::left_join(phecode_to_levels, by = 'phecode') %>%
-    filter(!is.na(code_l1))
+    filter(!is.na(code_l1)) %>%
+    dplyr::select(-phecode)
 
-  if(nrow(patient_code_counts) > nrow(with_hierarchy)){
+  if(nrow(patient_code_counts) > nrow(rolled_up)){
     warning("Some codes in dataset didn't match phecode 1.2 definitions. These codes are being removed.")
   }
 
+
   rollup_l3 <- function(l3_data){
-    rolledup_count <- sum(l3_data$count[l3_data$code_l3 != 0L])
-    dplyr::tibble(count = rolledup_count, code_l3 = 0L) %>%
-      dplyr::bind_rows(l3_data)
+    new_row <- dplyr::tibble(code_l3 = 0L)
+
+    if(count_mode){
+      new_row[count_col_name] <- sum(dplyr::filter(l3_data, code_l3 != 0)[count_col_name])
+    }
+
+    dplyr::bind_rows(new_row, l3_data)
   }
 
   rollup_l2 <- function(l2_data){
-    rolledup_count <- sum(dplyr::filter(l2_data, code_l2 != 0, code_l3 == 0)$count)
-    dplyr::tibble(count = rolledup_count, code_l2 = 0L, code_l3 = 0L) %>%
-      dplyr::bind_rows(l2_data)
+    new_row <- dplyr::tibble(code_l2 = 0L, code_l3 = 0L)
+
+    if(count_mode){
+      new_row[count_col_name] <- sum(dplyr::filter(l2_data, code_l2 != 0, code_l3 == 0)[count_col_name])
+    }
+
+    dplyr::bind_rows(new_row, l2_data)
   }
-  with_hierarchy %>%
-    dplyr::select(-phecode) %>%
+
+  rolled_up <- rolled_up %>%
     dplyr::group_by({{patient_col}}, code_l1, code_l2) %>%
     tidyr::nest() %>%
     dplyr::mutate(data = purrr::map(data, rollup_l3)) %>%
@@ -75,9 +107,24 @@ rollup_phecode_counts <- function(patient_code_counts,
     tidyr::nest() %>%
     dplyr::mutate(data = purrr::map(data, rollup_l2)) %>%
     tidyr::unnest(data) %>%
-    dplyr::group_by({{patient_col}}, code_l1, code_l2, code_l3) %>%
-    dplyr::summarise(count = sum(count)) %>%
-    dplyr::ungroup() %>%
+    dplyr::ungroup()
+
+  if(count_mode){
+    # In count mode we need to collapse the counts for repeat obs
+    rolled_up <- rolled_up %>%
+      dplyr::group_by({{patient_col}}, code_l1, code_l2, code_l3) %>%
+      dplyr::summarise({{count_col}} := sum({{count_col}})) %>%
+      dplyr::ungroup()
+
+  } else {
+    # In binary mode we just need to remove repeat rows
+    rolled_up <- rolled_up %>%
+      dplyr::distinct({{patient_col}}, code_l1, code_l2, code_l3) %>%
+      dplyr::ungroup()
+  }
+
+  # Rebuild the phecode column and return
+  rolled_up %>%
     dplyr::mutate({{phecode_col}} := glue::glue("{code_l1}.{code_l2}{code_l3}") %>%
                     stringr::str_pad(width = 6, side = "left", pad = "0")) %>%
     dplyr::select(-code_l1, -code_l2, -code_l3)
