@@ -82,12 +82,12 @@
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; # A tibble: 6 x 2</span></a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;    code    val</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 1  516.  2.70 </span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 2  694  -0.753</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 3  620. -0.357</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 4  947   0.201</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 5  165  -0.323</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 6  798. -2.63</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 1  696. -5.59 </span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 2  364.  4.56 </span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 3  287   1.05 </span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 4  428  -1.49 </span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 5  990   0.173</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 6  327.  0.781</span></a></code></pre></div>
 <div id="normalizing-phecodes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#normalizing-phecodes" class="anchor"></a>Normalizing phecodes</h3>
@@ -98,17 +98,16 @@
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; # A tibble: 6 x 3</span></a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt;    code    val fixed_code</span></a>
 <a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     </span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 1  516.  2.70  516.10    </span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; 2  694  -0.753 694.00    </span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 3  620. -0.357 620.10    </span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 4  947   0.201 947.00    </span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 5  165  -0.323 165.00    </span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 6  798. -2.63  798.10</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 1  696. -5.59  696.40    </span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; 2  364.  4.56  364.10    </span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 3  287   1.05  287.00    </span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 4  428  -1.49  428.00    </span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 5  990   0.173 990.00    </span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 6  327.  0.781 327.31</span></a>
 <a class="sourceLine" id="cb3-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co"># Update our original data with normalized phecodes</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16">phewas_data &lt;-<span class="st"> </span>phewas_data <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">code =</span> <span class="kw"><a href="reference/normalize_phecode.html">normalize_phecode</a></span>(code))</a></code></pre></div>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co"># Update our original data with normalized phecodes</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15">phewas_data &lt;-<span class="st"> </span>phewas_data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">code =</span> <span class="kw"><a href="reference/normalize_phecode.html">normalize_phecode</a></span>(code))</a></code></pre></div>
 </div>
 <div id="getting-phecode-information" class="section level3">
 <h3 class="hasAnchor">
@@ -120,28 +119,28 @@
 <a class="sourceLine" id="cb4-3" data-line-number="3">         <span class="dt">category =</span> <span class="kw"><a href="reference/get_phecode_info.html">get_phecode_info</a></span>(code, <span class="st">'category'</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>()</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; # A tibble: 6 x 4</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;   code      val descript                             category     </span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;                                &lt;chr&gt;        </span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 1 516.10  2.70  Hemoptysis                           respiratory  </span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 2 694.00 -0.753 Dyschromia and Vitiligo              dermatologic </span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 3 620.10 -0.357 Dysplasia of cervix                  genitourinary</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; 4 947.00  0.201 Urticaria                            dermatologic </span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; 5 165.00 -0.323 Cancer within the respiratory system neoplasms    </span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; 6 798.10 -2.63  Chronic fatigue syndrome             symptoms</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;   code      val descript                                  category             </span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;                                     &lt;chr&gt;                </span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 1 696.40 -5.59  Psoriasis                                 dermatologic         </span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 2 364.10  4.56  Corneal opacity                           sense organs         </span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 3 287.00  1.05  Purpura and other hemorrhagic conditions  hematopoietic        </span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; 4 428.00 -1.49  Congestive heart failure; nonhypertensive circulatory system   </span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; 5 990.00  0.173 Effects radiation NOS                     injuries &amp; poisonings</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; 6 327.31  0.781 Central/nonobstroctive sleep apnea        neurological</span></a></code></pre></div>
 <p>For more a more complete labeling of phecode information the function <code><a href="reference/join_phecode_info.html">join_phecode_info()</a></code> modifies a passsed dataframe by appending a desired subset of description, category, category number, and phecode index columns.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># We can append all info available</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">phewas_data <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/join_phecode_info.html">join_phecode_info</a></span>(<span class="dt">phecode_column =</span> <span class="st">'code'</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>()</a>
 <a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; # A tibble: 6 x 6</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;   phecode    val description            category   category_number phecode_index</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;                  &lt;chr&gt;                &lt;dbl&gt;         &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 1 516.10   2.70  Hemoptysis             respirato…               9           982</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; 2 694.00  -0.753 Dyschromia and Vitili… dermatolo…              13          1411</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; 3 620.10  -0.357 Dysplasia of cervix    genitouri…              11          1294</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; 4 947.00   0.201 Urticaria              dermatolo…              13          1482</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; 5 165.00  -0.323 Cancer within the res… neoplasms                2            97</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; 6 798.10  -2.63  Chronic fatigue syndr… symptoms                17          1719</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;   phecode    val description           category    category_number phecode_index</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;                 &lt;chr&gt;                 &lt;dbl&gt;         &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 1 696.40  -5.59  Psoriasis             dermatolog…              13          1431</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; 2 364.10   4.56  Corneal opacity       sense orga…               7           630</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; 3 287.00   1.05  Purpura and other he… hematopoie…               4           423</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; 4 428.00  -1.49  Congestive heart fai… circulator…               8           814</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; 5 990.00   0.173 Effects radiation NOS injuries &amp;…              18          1843</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; 6 327.31   0.781 Central/nonobstrocti… neurologic…               6           528</span></a>
 <a class="sourceLine" id="cb5-14" data-line-number="14"></a>
 <a class="sourceLine" id="cb5-15" data-line-number="15"></a>
 <a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co"># Or we can just extract what we need</span></a>
@@ -151,14 +150,14 @@
 <a class="sourceLine" id="cb5-20" data-line-number="20"></a>
 <a class="sourceLine" id="cb5-21" data-line-number="21"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(phewas_data)</a>
 <a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; # A tibble: 6 x 5</span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt;   phecode    val description                          category     phecode_index</span></a>
-<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;                                &lt;chr&gt;                &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; 1 516.10   2.70  Hemoptysis                           respiratory            982</span></a>
-<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; 2 694.00  -0.753 Dyschromia and Vitiligo              dermatologic          1411</span></a>
-<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; 3 620.10  -0.357 Dysplasia of cervix                  genitourina…          1294</span></a>
-<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">#&gt; 4 947.00   0.201 Urticaria                            dermatologic          1482</span></a>
-<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt; 5 165.00  -0.323 Cancer within the respiratory system neoplasms               97</span></a>
-<a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt; 6 798.10  -2.63  Chronic fatigue syndrome             symptoms              1719</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt;   phecode    val description                      category         phecode_index</span></a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;                            &lt;chr&gt;                    &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; 1 696.40  -5.59  Psoriasis                        dermatologic              1431</span></a>
+<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; 2 364.10   4.56  Corneal opacity                  sense organs               630</span></a>
+<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; 3 287.00   1.05  Purpura and other hemorrhagic c… hematopoietic              423</span></a>
+<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">#&gt; 4 428.00  -1.49  Congestive heart failure; nonhy… circulatory sys…           814</span></a>
+<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt; 5 990.00   0.173 Effects radiation NOS            injuries &amp; pois…          1843</span></a>
+<a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt; 6 327.31   0.781 Central/nonobstroctive sleep ap… neurological               528</span></a></code></pre></div>
 </div>
 <div id="coloring-phewas-plots" class="section level3">
 <h3 class="hasAnchor">
@@ -185,6 +184,24 @@
 <a class="sourceLine" id="cb7-7" data-line-number="7">        <span class="dt">panel.grid.major.x =</span> <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>(),</a>
 <a class="sourceLine" id="cb7-8" data-line-number="8">        <span class="dt">panel.grid.minor.x =</span> <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>())</a></code></pre></div>
 <p><img src="reference/figures/README-plot-w-scale_color_phecode-1.png" width="100%"></p>
+</div>
+<div id="ggplot-theme" class="section level3">
+<h3 class="hasAnchor">
+<a href="#ggplot-theme" class="anchor"></a>ggplot theme</h3>
+<p>One last helper is a theme object that lets you get rid of the tick marks for each phecode without the laboreous typing of <code><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme(axis.ticks.x = ...)</a></code> repeatedly.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">phewas_data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/stats/reorder.factor.html">reorder</a></span>(phecode, phecode_index), <span class="dt">y =</span> val, <span class="dt">color =</span> category)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span>(<span class="dt">values =</span> <span class="kw"><a href="reference/category_colors.html">category_colors</a></span>()) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="reference/theme_phewas.html">theme_phewas</a></span>()</a></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
+<p>It can also be used on phecode-on-y-axis plots.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">phewas_data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/stats/reorder.factor.html">reorder</a></span>(phecode, phecode_index), <span class="dt">x =</span> val, <span class="dt">color =</span> category)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span>(<span class="dt">values =</span> <span class="kw"><a href="reference/category_colors.html">category_colors</a></span>()) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="reference/theme_phewas.html">theme_phewas</a></span>(<span class="dt">phecode_on_x_axis =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
 </div>
 </div>
 </div>
