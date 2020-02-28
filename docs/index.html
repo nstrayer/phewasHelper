@@ -93,7 +93,7 @@
 <a href="#normalizing-phecodes" class="anchor"></a>Normalizing phecodes</h3>
 <p>Phecodes show up in about a million different formats. In our demo data the phecodes have been converted to a numeric value. This would be an issue if we tried to harmonize with data that stored the phecodes in a string. The function <code>normalize_phecodes</code> is designed to fix this problem. It takes any phecode array and coerces it to a standard zero-padded string.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">phewas_data <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">fixed_code =</span> <span class="kw"><a href="reference/normalize_phecode.html">normalize_phecode</a></span>(code)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">fixed_code =</span> <span class="kw">normalize_phecode</span>(code)) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>()</a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; # A tibble: 6 x 3</span></a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt;    code    val fixed_code</span></a>
@@ -107,7 +107,7 @@
 <a class="sourceLine" id="cb3-13" data-line-number="13"></a>
 <a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co"># Update our original data with normalized phecodes</span></a>
 <a class="sourceLine" id="cb3-15" data-line-number="15">phewas_data &lt;-<span class="st"> </span>phewas_data <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">code =</span> <span class="kw"><a href="reference/normalize_phecode.html">normalize_phecode</a></span>(code))</a></code></pre></div>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">code =</span> <span class="kw">normalize_phecode</span>(code))</a></code></pre></div>
 </div>
 <div id="getting-phecode-information" class="section level3">
 <h3 class="hasAnchor">

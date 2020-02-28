@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Rollup phecode counts — rollup_phecode_counts • phewasHelper</title>
+<title>Add phecode levels to dataframe — add_phecode_levels • phewasHelper</title>
 
 
 <!-- jquery -->
@@ -35,11 +35,10 @@
 
 
 
-<meta property="og:title" content="Rollup phecode counts — rollup_phecode_counts" />
-<meta property="og:description" content="Takes phecodes that have been coded without rollup - E.g. existance of code
-008.10 does not imply the existance of 008.00 - and produces a rolledup
-version of the dataset. Works with plain patient-phecode pairs and also with
-patient-code-count triplets." />
+<meta property="og:title" content="Add phecode levels to dataframe — add_phecode_levels" />
+<meta property="og:description" content="Takes a dataframe with a phecode column and replaces it with the
+hierarchichal levels of the phecodes as columns code_l1, code_l2 and
+code_l3." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,61 +102,48 @@ patient-code-count triplets." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Rollup phecode counts</h1>
+    <h1>Add phecode levels to dataframe</h1>
     
-    <div class="hidden name"><code>rollup_phecode_counts.Rd</code></div>
+    <div class="hidden name"><code>add_phecode_levels.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Takes phecodes that have been coded without rollup - E.g. existance of code
-008.10 does not imply the existance of 008.00 - and produces a rolledup
-version of the dataset. Works with plain patient-phecode pairs and also with
-patient-code-count triplets.</p>
+    <p>Takes a dataframe with a phecode column and replaces it with the
+hierarchichal levels of the phecodes as columns <code>code_l1, code_l2</code> and
+<code>code_l3</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rollup_phecode_counts</span>(
-  <span class='no'>patient_code_counts</span>,
-  <span class='kw'>patient_col</span> <span class='kw'>=</span> <span class='no'>patient</span>,
-  <span class='kw'>phecode_col</span> <span class='kw'>=</span> <span class='no'>phecode</span>,
-  <span class='kw'>count_col</span> <span class='kw'>=</span> <span class='no'>counts</span>
+    <pre class="usage"><span class='fu'>add_phecode_levels</span>(
+  <span class='no'>phecode_data</span>,
+  <span class='kw'>phecode_column</span> <span class='kw'>=</span> <span class='no'>phecode</span>,
+  <span class='kw'>remove_phecode_column</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>patient_code_counts</th>
-      <td><p>Data containing patient ids, phecodes, and counts
-of those phecodes.</p></td>
+      <th>phecode_data</th>
+      <td><p>Dataframe with a column encoding phecodes (make sure
+codes are normalized via <code><a href='normalize_phecodes.html'>normalize_phecodes</a></code>).</p></td>
     </tr>
     <tr>
-      <th>patient_col</th>
-      <td><p>Unquoted name of the column containing patient ids in
-passed <code>patient_code_counts</code>'s dataframe.</p></td>
+      <th>phecode_column</th>
+      <td><p>Unquoted name of the column containing phecodes</p></td>
     </tr>
     <tr>
-      <th>phecode_col</th>
-      <td><p>Unquoted name of the column containing phecodes in passed
-dataframe.</p></td>
-    </tr>
-    <tr>
-      <th>count_col</th>
-      <td><p>Unquoted name of the column containing counts of phecodes in
-passed dataframe.</p></td>
+      <th>remove_phecode_column</th>
+      <td><p>Should the original phecode column be kept in the data?</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Dataframe in same format as passed <code>patient_code_counts</code> with code
-counts rolled up. This will most likely be longer than the original dataset
-because of the addition of potentially previously ommitted codes.</p>
+    <p>Dataframe with phecode levels added as three integer columns</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-
-<span class='no'>patient_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>tribble</a></span>(
+<span class='no'>patient_data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>tribble</a></span>(
   ~<span class='no'>patient</span>,    ~<span class='no'>code</span>, ~<span class='no'>counts</span>,
   <span class='fl'>1</span>, <span class='st'>"250.23"</span>,      <span class='fl'>7</span>,
   <span class='fl'>1</span>, <span class='st'>"250.25"</span>,      <span class='fl'>4</span>,
@@ -169,25 +155,30 @@ because of the addition of potentially previously ommitted codes.</p>
   <span class='fl'>2</span>, <span class='st'>"751.11"</span>,      <span class='fl'>2</span>,
 )
 
-<span class='co'># Rolls up counts for codes if they are present</span>
-<span class='no'>patient_data</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>rollup_phecode_counts</span>(<span class='kw'>patient_col</span> <span class='kw'>=</span> <span class='no'>patient</span>,
-                  <span class='kw'>phecode_col</span> <span class='kw'>=</span> <span class='no'>code</span>,
-                  <span class='kw'>count_col</span> <span class='kw'>=</span> <span class='no'>counts</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 22 x 3</span><span>
-#&gt;    code   patient counts
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 250.00       1     11
-#&gt; </span><span style='color: #555555;'> 2</span><span> 250.20       1     11
-#&gt; </span><span style='color: #555555;'> 3</span><span> 250.23       1      7
-#&gt; </span><span style='color: #555555;'> 4</span><span> 250.25       1      4
-#&gt; </span><span style='color: #555555;'> 5</span><span> 555.00       1      4
-#&gt; </span><span style='color: #555555;'> 6</span><span> 555.20       1      4
-#&gt; </span><span style='color: #555555;'> 7</span><span> 555.21       1      4
-#&gt; </span><span style='color: #555555;'> 8</span><span> 696.00       1      1
-#&gt; </span><span style='color: #555555;'> 9</span><span> 696.40       1      1
-#&gt; </span><span style='color: #555555;'>10</span><span> 696.42       1      1
-#&gt; </span><span style='color: #555555;'># … with 12 more rows</span><span></div><div class='input'>
-
+<span class='co'># Default removes original phecode column</span>
+<span class='fu'>add_phecode_levels</span>(<span class='no'>patient_data</span>, <span class='no'>code</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 8 x 5</span><span>
+#&gt;   patient counts code_l1 code_l2 code_l3
+#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>       1      7     250       2       3
+#&gt; </span><span style='color: #555555;'>2</span><span>       1      4     250       2       5
+#&gt; </span><span style='color: #555555;'>3</span><span>       1      1     696       4       2
+#&gt; </span><span style='color: #555555;'>4</span><span>       1      4     555       2       1
+#&gt; </span><span style='color: #555555;'>5</span><span>       2      6     401       2       2
+#&gt; </span><span style='color: #555555;'>6</span><span>       2      5     204       2       1
+#&gt; </span><span style='color: #555555;'>7</span><span>       2      4     735       2       2
+#&gt; </span><span style='color: #555555;'>8</span><span>       2      2     751       1       1</div><div class='input'>
+<span class='co'># Can keep original column as well</span>
+<span class='fu'>add_phecode_levels</span>(<span class='no'>patient_data</span>, <span class='no'>code</span>, <span class='kw'>remove_phecode_column</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 8 x 6</span><span>
+#&gt;   patient code   counts code_l1 code_l2 code_l3
+#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>       1 250.23      7     250       2       3
+#&gt; </span><span style='color: #555555;'>2</span><span>       1 250.25      4     250       2       5
+#&gt; </span><span style='color: #555555;'>3</span><span>       1 696.42      1     696       4       2
+#&gt; </span><span style='color: #555555;'>4</span><span>       1 555.21      4     555       2       1
+#&gt; </span><span style='color: #555555;'>5</span><span>       2 401.22      6     401       2       2
+#&gt; </span><span style='color: #555555;'>6</span><span>       2 204.21      5     204       2       1
+#&gt; </span><span style='color: #555555;'>7</span><span>       2 735.22      4     735       2       2
+#&gt; </span><span style='color: #555555;'>8</span><span>       2 751.11      2     751       1       1</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

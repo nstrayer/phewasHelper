@@ -10,7 +10,7 @@ theme_phewas(phecode_on_x_axis = TRUE)
 \item{phecode_on_x_axis}{Is the phecode in the plot on the x axis?}
 }
 \value{
-
+Ggplot2 theme object
 }
 \description{
 Turns off the plots attempt to write out each individual phecode name and

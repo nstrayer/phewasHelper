@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • phewasHelper</title>
+<title>Phecode Descriptions — phecode_descriptions • phewasHelper</title>
 
 
 <!-- jquery -->
@@ -35,7 +35,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Phecode Descriptions — phecode_descriptions" />
+<meta property="og:description" content="A dataset containing the info on phecodes in terms of description, category, and index" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -54,7 +56,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -96,102 +98,38 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Phecode Descriptions</h1>
+    
+    <div class="hidden name"><code>phecode_descriptions.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>A dataset containing the info on phecodes in terms of description, category, and index</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='no'>phecode_descriptions</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="add_phecode_levels.html">add_phecode_levels()</a></code> </p>
-        </td>
-        <td><p>Add phecode levels to dataframe</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="category_colors.html">category_colors()</a></code> </p>
-        </td>
-        <td><p>PheCode category colors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_phecode_info.html">get_phecode_info()</a></code> </p>
-        </td>
-        <td><p>Get phecode information</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="join_phecode_info.html">join_phecode_info()</a></code> </p>
-        </td>
-        <td><p>Join data with phecode information</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="normalize_phecodes.html">normalize_phecodes()</a></code> </p>
-        </td>
-        <td><p>Normalize a phecode vector to padded character</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="phecode_descriptions.html">phecode_descriptions</a></code> </p>
-        </td>
-        <td><p>Phecode Descriptions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="phecode_to_levels.html">phecode_to_levels</a></code> </p>
-        </td>
-        <td><p>Phecode to hierarchy levels</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rollup_phecode_counts.html">rollup_phecode_counts()</a></code> </p>
-        </td>
-        <td><p>Rollup phecode counts</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rollup_phecode_pairs.html">rollup_phecode_pairs()</a></code> </p>
-        </td>
-        <td><p>Rollup binary phecode pairs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scale_color_phecode.html">scale_color_phecode()</a></code> </p>
-        </td>
-        <td><p>Phecode color scale for ggplot2</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="theme_phewas.html">theme_phewas()</a></code> </p>
-        </td>
-        <td><p>Phewas friendly theming for ggplot2</p></td>
-      </tr>
-    </tbody>
-    </table>
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A data frame with 1,866 rows and 4 variables:</p><dl class='dl-horizontal'>
+<dt>phecode</dt><dd><p>Normalized phecode (1.2)</p></dd>
+<dt>description</dt><dd><p>Description of this specific phecode</p></dd>
+<dt>category</dt><dd><p>What broader category phecode resides in</p></dd>
+<dt>category_number</dt><dd><p>Integer mapping for category</p></dd>
+<dt>phecode_index</dt><dd><p>Integer mapping for all phecodes</p></dd>
+
+</dl>
+
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#format">Format</a></li>
     </ul>
+
   </div>
 </div>
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Rollup phecode counts — rollup_phecode_counts • phewasHelper</title>
+<title>Rollup binary phecode pairs — rollup_phecode_pairs • phewasHelper</title>
 
 
 <!-- jquery -->
@@ -35,7 +35,7 @@
 
 
 
-<meta property="og:title" content="Rollup phecode counts — rollup_phecode_counts" />
+<meta property="og:title" content="Rollup binary phecode pairs — rollup_phecode_pairs" />
 <meta property="og:description" content="Takes phecodes that have been coded without rollup - E.g. existance of code
 008.10 does not imply the existance of 008.00 - and produces a rolledup
 version of the dataset. Works with plain patient-phecode pairs and also with
@@ -103,9 +103,9 @@ patient-code-count triplets." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Rollup phecode counts</h1>
+    <h1>Rollup binary phecode pairs</h1>
     
-    <div class="hidden name"><code>rollup_phecode_counts.Rd</code></div>
+    <div class="hidden name"><code>rollup_phecode_pairs.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -115,11 +115,10 @@ version of the dataset. Works with plain patient-phecode pairs and also with
 patient-code-count triplets.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rollup_phecode_counts</span>(
+    <pre class="usage"><span class='fu'>rollup_phecode_pairs</span>(
   <span class='no'>patient_code_counts</span>,
   <span class='kw'>patient_col</span> <span class='kw'>=</span> <span class='no'>patient</span>,
-  <span class='kw'>phecode_col</span> <span class='kw'>=</span> <span class='no'>phecode</span>,
-  <span class='kw'>count_col</span> <span class='kw'>=</span> <span class='no'>counts</span>
+  <span class='kw'>phecode_col</span> <span class='kw'>=</span> <span class='no'>phecode</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -140,11 +139,6 @@ passed <code>patient_code_counts</code>'s dataframe.</p></td>
       <td><p>Unquoted name of the column containing phecodes in passed
 dataframe.</p></td>
     </tr>
-    <tr>
-      <th>count_col</th>
-      <td><p>Unquoted name of the column containing counts of phecodes in
-passed dataframe.</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -158,36 +152,35 @@ because of the addition of potentially previously ommitted codes.</p>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 
 <span class='no'>patient_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>tribble</a></span>(
-  ~<span class='no'>patient</span>,    ~<span class='no'>code</span>, ~<span class='no'>counts</span>,
-  <span class='fl'>1</span>, <span class='st'>"250.23"</span>,      <span class='fl'>7</span>,
-  <span class='fl'>1</span>, <span class='st'>"250.25"</span>,      <span class='fl'>4</span>,
-  <span class='fl'>1</span>, <span class='st'>"696.42"</span>,      <span class='fl'>1</span>,
-  <span class='fl'>1</span>, <span class='st'>"555.21"</span>,      <span class='fl'>4</span>,
-  <span class='fl'>2</span>, <span class='st'>"401.22"</span>,      <span class='fl'>6</span>,
-  <span class='fl'>2</span>, <span class='st'>"204.21"</span>,      <span class='fl'>5</span>,
-  <span class='fl'>2</span>, <span class='st'>"735.22"</span>,      <span class='fl'>4</span>,
-  <span class='fl'>2</span>, <span class='st'>"751.11"</span>,      <span class='fl'>2</span>,
+  ~<span class='no'>patient</span>,    ~<span class='no'>code</span>,
+         <span class='fl'>1</span>, <span class='st'>"250.23"</span>,
+         <span class='fl'>1</span>, <span class='st'>"250.25"</span>,
+         <span class='fl'>1</span>, <span class='st'>"696.42"</span>,
+         <span class='fl'>1</span>, <span class='st'>"555.21"</span>,
+         <span class='fl'>2</span>, <span class='st'>"401.22"</span>,
+         <span class='fl'>2</span>, <span class='st'>"204.21"</span>,
+         <span class='fl'>2</span>, <span class='st'>"735.22"</span>,
+         <span class='fl'>2</span>, <span class='st'>"751.11"</span>,
 )
 
-<span class='co'># Rolls up counts for codes if they are present</span>
-<span class='no'>patient_data</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>rollup_phecode_counts</span>(<span class='kw'>patient_col</span> <span class='kw'>=</span> <span class='no'>patient</span>,
-                  <span class='kw'>phecode_col</span> <span class='kw'>=</span> <span class='no'>code</span>,
-                  <span class='kw'>count_col</span> <span class='kw'>=</span> <span class='no'>counts</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 22 x 3</span><span>
-#&gt;    code   patient counts
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 250.00       1     11
-#&gt; </span><span style='color: #555555;'> 2</span><span> 250.20       1     11
-#&gt; </span><span style='color: #555555;'> 3</span><span> 250.23       1      7
-#&gt; </span><span style='color: #555555;'> 4</span><span> 250.25       1      4
-#&gt; </span><span style='color: #555555;'> 5</span><span> 555.00       1      4
-#&gt; </span><span style='color: #555555;'> 6</span><span> 555.20       1      4
-#&gt; </span><span style='color: #555555;'> 7</span><span> 555.21       1      4
-#&gt; </span><span style='color: #555555;'> 8</span><span> 696.00       1      1
-#&gt; </span><span style='color: #555555;'> 9</span><span> 696.40       1      1
-#&gt; </span><span style='color: #555555;'>10</span><span> 696.42       1      1
-#&gt; </span><span style='color: #555555;'># … with 12 more rows</span><span></div><div class='input'>
 
+<span class='co'># Also works with just binary occurance pairs</span>
+<span class='no'>patient_data</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>rollup_phecode_pairs</span>(<span class='kw'>patient_col</span> <span class='kw'>=</span> <span class='no'>patient</span>,
+                  <span class='kw'>phecode_col</span> <span class='kw'>=</span> <span class='no'>code</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 22 x 2</span><span>
+#&gt;    patient code  
+#&gt;      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span>       1 250.23
+#&gt; </span><span style='color: #555555;'> 2</span><span>       1 250.25
+#&gt; </span><span style='color: #555555;'> 3</span><span>       1 696.42
+#&gt; </span><span style='color: #555555;'> 4</span><span>       1 555.21
+#&gt; </span><span style='color: #555555;'> 5</span><span>       2 401.22
+#&gt; </span><span style='color: #555555;'> 6</span><span>       2 204.21
+#&gt; </span><span style='color: #555555;'> 7</span><span>       2 735.22
+#&gt; </span><span style='color: #555555;'> 8</span><span>       2 751.11
+#&gt; </span><span style='color: #555555;'> 9</span><span>       1 250.20
+#&gt; </span><span style='color: #555555;'>10</span><span>       1 696.40
+#&gt; </span><span style='color: #555555;'># … with 12 more rows</span><span></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
