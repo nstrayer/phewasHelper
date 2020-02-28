@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![R build
+status](https://github.com/nstrayer/phewasHelper/workflows/R-CMD-check/badge.svg)](https://github.com/nstrayer/phewasHelper/actions)
 <!-- badges: end -->
 
 The goal of phewasHelper is to provide a set of simple lightweight
@@ -31,12 +33,12 @@ head(phewas_data)
 #> # A tibble: 6 x 2
 #>    code    val
 #>   <dbl>  <dbl>
-#> 1  281. -1.22 
-#> 2  767  -3.63 
-#> 3  378   2.47 
-#> 4  496  -2.05 
-#> 5  647   0.539
-#> 6  771. -3.31
+#> 1  420.  0.136
+#> 2  401   1.04 
+#> 3  741. -2.26 
+#> 4  580. -6.53 
+#> 5  204.  2.59 
+#> 6  394.  2.67
 ```
 
 ### Normalizing phecodes
@@ -55,12 +57,12 @@ phewas_data %>%
 #> # A tibble: 6 x 3
 #>    code    val fixed_code
 #>   <dbl>  <dbl> <chr>     
-#> 1  281. -1.22  281.11    
-#> 2  767  -3.63  767.00    
-#> 3  378   2.47  378.00    
-#> 4  496  -2.05  496.00    
-#> 5  647   0.539 647.00    
-#> 6  771. -3.31  771.20
+#> 1  420.  0.136 420.20    
+#> 2  401   1.04  401.00    
+#> 3  741. -2.26  741.20    
+#> 4  580. -6.53  580.12    
+#> 5  204.  2.59  204.10    
+#> 6  394.  2.67  394.20
 
 # Update our original data with normalized phecodes
 phewas_data <- phewas_data %>% 
@@ -84,14 +86,14 @@ phewas_data %>%
          category = get_phecode_info(code, 'category')) %>% 
   head()
 #> # A tibble: 6 x 4
-#>   code      val descript                                      category          
-#>   <chr>   <dbl> <chr>                                         <chr>             
-#> 1 281.11 -1.22  Pernicious anemia                             hematopoietic     
-#> 2 767.00 -3.63  Cervicocranial/Cervicobrachial syndrome       symptoms          
-#> 3 378.00  2.47  Strabismus and other disorders of binocular … sense organs      
-#> 4 496.00 -2.05  Chronic airway obstruction                    respiratory       
-#> 5 647.00  0.539 Infectious and parasitic complications affec… pregnancy complic…
-#> 6 771.20 -3.31  Cramp of limb                                 symptoms
+#>   code      val descript                             category          
+#>   <chr>   <dbl> <chr>                                <chr>             
+#> 1 420.20  0.136 Pericarditis                         circulatory system
+#> 2 401.00  1.04  Hypertension                         circulatory system
+#> 3 741.20 -2.26  Stiffness of joint                   musculoskeletal   
+#> 4 580.12 -6.53  Non-proliferative glomerulonephritis genitourinary     
+#> 5 204.10  2.59  Lymphoid leukemia                    neoplasms         
+#> 6 394.20  2.67  Mitral valve disease                 circulatory system
 ```
 
 For more a more complete labeling of phecode information the function
@@ -105,14 +107,14 @@ phewas_data %>%
   join_phecode_info(phecode_column = code) %>% 
   head()
 #> # A tibble: 6 x 6
-#>   code      val description            category    category_number phecode_index
-#>   <chr>   <dbl> <chr>                  <chr>                 <int>         <int>
-#> 1 281.11 -1.22  Pernicious anemia      hematopoie…               4           387
-#> 2 767.00 -3.63  Cervicocranial/Cervic… symptoms                 17          1677
-#> 3 378.00  2.47  Strabismus and other … sense orga…               7           689
-#> 4 496.00 -2.05  Chronic airway obstru… respiratory               9           937
-#> 5 647.00  0.539 Infectious and parasi… pregnancy …              12          1350
-#> 6 771.20 -3.31  Cramp of limb          symptoms                 17          1682
+#>   code      val description           category     category_number phecode_index
+#>   <chr>   <dbl> <chr>                 <chr>                  <int>         <int>
+#> 1 420.20  0.136 Pericarditis          circulatory…               8           771
+#> 2 401.00  1.04  Hypertension          circulatory…               8           744
+#> 3 741.20 -2.26  Stiffness of joint    musculoskel…              14          1594
+#> 4 580.12 -6.53  Non-proliferative gl… genitourina…              11          1157
+#> 5 204.10  2.59  Lymphoid leukemia     neoplasms                  2           167
+#> 6 394.20  2.67  Mitral valve disease  circulatory…               8           733
 
 
 # Or we can just extract what we need
@@ -122,14 +124,14 @@ phewas_data <- phewas_data %>%
 
 head(phewas_data)
 #> # A tibble: 6 x 5
-#>   code      val description                        category        phecode_index
-#>   <chr>   <dbl> <chr>                              <chr>                   <int>
-#> 1 281.11 -1.22  Pernicious anemia                  hematopoietic             387
-#> 2 767.00 -3.63  Cervicocranial/Cervicobrachial sy… symptoms                 1677
-#> 3 378.00  2.47  Strabismus and other disorders of… sense organs              689
-#> 4 496.00 -2.05  Chronic airway obstruction         respiratory               937
-#> 5 647.00  0.539 Infectious and parasitic complica… pregnancy comp…          1350
-#> 6 771.20 -3.31  Cramp of limb                      symptoms                 1682
+#>   code      val description                       category         phecode_index
+#>   <chr>   <dbl> <chr>                             <chr>                    <int>
+#> 1 420.20  0.136 Pericarditis                      circulatory sys…           771
+#> 2 401.00  1.04  Hypertension                      circulatory sys…           744
+#> 3 741.20 -2.26  Stiffness of joint                musculoskeletal           1594
+#> 4 580.12 -6.53  Non-proliferative glomerulonephr… genitourinary             1157
+#> 5 204.10  2.59  Lymphoid leukemia                 neoplasms                  167
+#> 6 394.20  2.67  Mitral valve disease              circulatory sys…           733
 ```
 
 ### Coloring PheWas plots

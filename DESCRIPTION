@@ -3,6 +3,7 @@ Type: Package
 Title: Helpers For Working With PheWas And PheCode Data
 Version: 0.1.1
 Author: Nick Strayer
+URL: http://nickstrayer.me/phewasHelper, https://github.com/nstrayer/phewasHelper
 Maintainer: Nick Strayer <nick.strayer@gmail.com>
 Description: The goal of phewasHelper is to provide a set of simple lightweight helper functions for working with Phecode and Phewas data. 
 License: MIT + file LICENSE

@@ -29,6 +29,7 @@ phewas_data <- sample_n(phecode_descriptions, 300) %>%
 # phewasHelper
 
 <!-- badges: start -->
+[![R build status](https://github.com/nstrayer/phewasHelper/workflows/R-CMD-check/badge.svg)](https://github.com/nstrayer/phewasHelper/actions)
 <!-- badges: end -->
 
 The goal of phewasHelper is to provide a set of simple lightweight helper functions for working with Phecode and Phewas data. 
