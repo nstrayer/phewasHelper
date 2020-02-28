@@ -5,6 +5,7 @@
 #' version of the dataset. Works with plain patient-phecode pairs and also with
 #' patient-code-count triplets.
 #'
+#'
 #' @param patient_code_counts Data containing patient ids, phecodes, and counts
 #'   of those phecodes.
 #' @param patient_col Unquoted name of the column containing patient ids in
@@ -17,6 +18,8 @@
 #' @return Dataframe in same format as passed `patient_code_counts` with code
 #'   counts rolled up. This will most likely be longer than the original dataset
 #'   because of the addition of potentially previously ommitted codes.
+#'
+#' @importFrom rlang :=
 #' @export
 #'
 #' @examples
@@ -71,7 +74,5 @@ rollup_phecode_counts <- function(patient_code_counts,
     )
 }
 
-
-
-utils::globalVariables(c("phecode", "count"))
+utils::globalVariables(c("phecode", "counts", "patient", "."))
 
