@@ -6,14 +6,14 @@
 \usage{
 join_phecode_info(
   data_w_phecode,
-  phecode_column = "phecode",
+  phecode_column = phecode,
   cols_to_join = c("description", "category", "category_number", "phecode_index")
 )
 }
 \arguments{
 \item{data_w_phecode}{Dataframe with a phecode column.}
 
-\item{phecode_column}{Name of column that contains phecodes}
+\item{phecode_column}{Unquoted column of passed data that contains phecodes}
 
 \item{cols_to_join}{Which columns of phecode info do you want appended to
 dataframe?}
@@ -41,7 +41,7 @@ data_w_phecode \%>\%
 # Can change name of phecode column
 data_w_phecode \%>\%
   rename(jd_code = phecode) \%>\%
-  join_phecode_info('jd_code')
+  join_phecode_info(jd_code)
 
 # Can choose which columns are added
 data_w_phecode \%>\%
