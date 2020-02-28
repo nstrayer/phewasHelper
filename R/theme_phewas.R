@@ -5,7 +5,7 @@
 #'
 #' @param phecode_on_x_axis Is the phecode in the plot on the x axis?
 #'
-#' @return
+#' @return Ggplot2 theme object
 #' @export
 #'
 #' @examples
