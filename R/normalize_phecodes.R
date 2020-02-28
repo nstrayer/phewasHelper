@@ -12,14 +12,9 @@
 #' @export
 #'
 #' @examples
-#' normalize_phecode(c(8, 8.1, 9.2))
-normalize_phecode <- function(codes){
+#' normalize_phecodes(c(8, 8.1, 9.2, 23.4))
+normalize_phecodes <- function(codes){
 
-  stringr::str_pad(
-    sprintf('%3.2f', as.numeric(codes)),
-    width = 6,
-    side = "left",
-    pad = "0"
-  )
+  sprintf("%06.2f", as.numeric(codes))
 
 }
