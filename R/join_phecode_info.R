@@ -5,7 +5,7 @@
 #' `phecode_index` (the relative position in ordered phenome of phecode).
 #'
 #' @param data_w_phecode Dataframe with a phecode column.
-#' @param phecode_column Name of column that contains phecodes
+#' @param phecode_column Unquoted column of passed data that contains phecodes
 #' @param cols_to_join Which columns of phecode info do you want appended to
 #'   dataframe?
 #'
@@ -30,17 +30,20 @@
 #' # Can change name of phecode column
 #' data_w_phecode %>%
 #'   rename(jd_code = phecode) %>%
-#'   join_phecode_info('jd_code')
+#'   join_phecode_info(jd_code)
 #'
 #' # Can choose which columns are added
 #' data_w_phecode %>%
 #'   join_phecode_info(cols_to_join = c("description", "phecode_index"))
 #'
 join_phecode_info <- function(data_w_phecode,
-                              phecode_column = 'phecode',
+                              phecode_column = phecode,
                               cols_to_join = c("description", "category", "category_number", "phecode_index")){
 
-  phecode_col_missing <- !(phecode_column %in% colnames(data_w_phecode))
+  phecode_column_name <- rlang::quo_name(rlang::enquo(phecode_column))
+
+  phecode_col_missing <- !(phecode_column_name %in% colnames(data_w_phecode))
+
 
   # cols_to_join = c("description", "phecode_index", "a cool col")
   if(phecode_col_missing){
@@ -64,9 +67,8 @@ join_phecode_info <- function(data_w_phecode,
                 paste(available_info_cols, collapse = ", ")))
   }
 
-
-  dplyr::left_join(dplyr::rename(data_w_phecode, phecode = !!rlang::sym(phecode_column)),
+  dplyr::left_join(data_w_phecode,
                    dplyr::select(phecode_descriptions, phecode, dplyr::one_of(cols_to_join)),
                    suffix = c("", "_info"),
-                   by = 'phecode')
+                   by = rlang::set_names("phecode", phecode_column_name))
 }
