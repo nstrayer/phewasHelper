@@ -31,12 +31,12 @@ head(phewas_data)
 #> # A tibble: 6 x 2
 #>    code    val
 #>   <dbl>  <dbl>
-#> 1  696. -5.59 
-#> 2  364.  4.56 
-#> 3  287   1.05 
-#> 4  428  -1.49 
-#> 5  990   0.173
-#> 6  327.  0.781
+#> 1  281. -1.22 
+#> 2  767  -3.63 
+#> 3  378   2.47 
+#> 4  496  -2.05 
+#> 5  647   0.539
+#> 6  771. -3.31
 ```
 
 ### Normalizing phecodes
@@ -50,21 +50,21 @@ zero-padded string.
 
 ``` r
 phewas_data %>% 
-  mutate(fixed_code = normalize_phecode(code)) %>% 
+  mutate(fixed_code = normalize_phecodes(code)) %>% 
   head()
 #> # A tibble: 6 x 3
 #>    code    val fixed_code
 #>   <dbl>  <dbl> <chr>     
-#> 1  696. -5.59  696.40    
-#> 2  364.  4.56  364.10    
-#> 3  287   1.05  287.00    
-#> 4  428  -1.49  428.00    
-#> 5  990   0.173 990.00    
-#> 6  327.  0.781 327.31
+#> 1  281. -1.22  281.11    
+#> 2  767  -3.63  767.00    
+#> 3  378   2.47  378.00    
+#> 4  496  -2.05  496.00    
+#> 5  647   0.539 647.00    
+#> 6  771. -3.31  771.20
 
 # Update our original data with normalized phecodes
 phewas_data <- phewas_data %>% 
-  mutate(code = normalize_phecode(code))
+  mutate(code = normalize_phecodes(code))
 ```
 
 ### Getting phecode information
@@ -84,14 +84,14 @@ phewas_data %>%
          category = get_phecode_info(code, 'category')) %>% 
   head()
 #> # A tibble: 6 x 4
-#>   code      val descript                                  category             
-#>   <chr>   <dbl> <chr>                                     <chr>                
-#> 1 696.40 -5.59  Psoriasis                                 dermatologic         
-#> 2 364.10  4.56  Corneal opacity                           sense organs         
-#> 3 287.00  1.05  Purpura and other hemorrhagic conditions  hematopoietic        
-#> 4 428.00 -1.49  Congestive heart failure; nonhypertensive circulatory system   
-#> 5 990.00  0.173 Effects radiation NOS                     injuries & poisonings
-#> 6 327.31  0.781 Central/nonobstroctive sleep apnea        neurological
+#>   code      val descript                                      category          
+#>   <chr>   <dbl> <chr>                                         <chr>             
+#> 1 281.11 -1.22  Pernicious anemia                             hematopoietic     
+#> 2 767.00 -3.63  Cervicocranial/Cervicobrachial syndrome       symptoms          
+#> 3 378.00  2.47  Strabismus and other disorders of binocular … sense organs      
+#> 4 496.00 -2.05  Chronic airway obstruction                    respiratory       
+#> 5 647.00  0.539 Infectious and parasitic complications affec… pregnancy complic…
+#> 6 771.20 -3.31  Cramp of limb                                 symptoms
 ```
 
 For more a more complete labeling of phecode information the function
@@ -102,34 +102,34 @@ index columns.
 ``` r
 # We can append all info available
 phewas_data %>% 
-  join_phecode_info(phecode_column = 'code') %>% 
+  join_phecode_info(phecode_column = code) %>% 
   head()
 #> # A tibble: 6 x 6
-#>   phecode    val description           category    category_number phecode_index
-#>   <chr>    <dbl> <chr>                 <chr>                 <dbl>         <int>
-#> 1 696.40  -5.59  Psoriasis             dermatolog…              13          1431
-#> 2 364.10   4.56  Corneal opacity       sense orga…               7           630
-#> 3 287.00   1.05  Purpura and other he… hematopoie…               4           423
-#> 4 428.00  -1.49  Congestive heart fai… circulator…               8           814
-#> 5 990.00   0.173 Effects radiation NOS injuries &…              18          1843
-#> 6 327.31   0.781 Central/nonobstrocti… neurologic…               6           528
+#>   code      val description            category    category_number phecode_index
+#>   <chr>   <dbl> <chr>                  <chr>                 <int>         <int>
+#> 1 281.11 -1.22  Pernicious anemia      hematopoie…               4           387
+#> 2 767.00 -3.63  Cervicocranial/Cervic… symptoms                 17          1677
+#> 3 378.00  2.47  Strabismus and other … sense orga…               7           689
+#> 4 496.00 -2.05  Chronic airway obstru… respiratory               9           937
+#> 5 647.00  0.539 Infectious and parasi… pregnancy …              12          1350
+#> 6 771.20 -3.31  Cramp of limb          symptoms                 17          1682
 
 
 # Or we can just extract what we need
 phewas_data <- phewas_data %>% 
-  join_phecode_info(phecode_column = 'code',
+  join_phecode_info(phecode_column = code,
                     cols_to_join = c("description", "category", "phecode_index"))
 
 head(phewas_data)
 #> # A tibble: 6 x 5
-#>   phecode    val description                      category         phecode_index
-#>   <chr>    <dbl> <chr>                            <chr>                    <int>
-#> 1 696.40  -5.59  Psoriasis                        dermatologic              1431
-#> 2 364.10   4.56  Corneal opacity                  sense organs               630
-#> 3 287.00   1.05  Purpura and other hemorrhagic c… hematopoietic              423
-#> 4 428.00  -1.49  Congestive heart failure; nonhy… circulatory sys…           814
-#> 5 990.00   0.173 Effects radiation NOS            injuries & pois…          1843
-#> 6 327.31   0.781 Central/nonobstroctive sleep ap… neurological               528
+#>   code      val description                        category        phecode_index
+#>   <chr>   <dbl> <chr>                              <chr>                   <int>
+#> 1 281.11 -1.22  Pernicious anemia                  hematopoietic             387
+#> 2 767.00 -3.63  Cervicocranial/Cervicobrachial sy… symptoms                 1677
+#> 3 378.00  2.47  Strabismus and other disorders of… sense organs              689
+#> 4 496.00 -2.05  Chronic airway obstruction         respiratory               937
+#> 5 647.00  0.539 Infectious and parasitic complica… pregnancy comp…          1350
+#> 6 771.20 -3.31  Cramp of limb                      symptoms                 1682
 ```
 
 ### Coloring PheWas plots
@@ -146,7 +146,7 @@ plots.
 library(ggplot2)
 
 phewas_data %>% 
-  ggplot(aes(x = reorder(phecode, phecode_index), y = val, color = category)) +
+  ggplot(aes(x = reorder(code, phecode_index), y = val, color = category)) +
   geom_point() +
   scale_color_manual(values = category_colors()) +
   theme(axis.ticks.x = element_blank(),
@@ -162,7 +162,7 @@ If just the color pallete is needed for `ggplot` then the function
 
 ``` r
 phewas_data %>% 
-  ggplot(aes(x = reorder(phecode, phecode_index), y = val, color = category)) +
+  ggplot(aes(x = reorder(code, phecode_index), y = val, color = category)) +
   geom_point() +
   scale_color_phecode() +
   theme(axis.ticks.x = element_blank(),
@@ -181,7 +181,7 @@ marks for each phecode without the laboreous typing of
 
 ``` r
 phewas_data %>% 
-  ggplot(aes(x = reorder(phecode, phecode_index), y = val, color = category)) +
+  ggplot(aes(x = reorder(code, phecode_index), y = val, color = category)) +
   geom_point() +
   scale_color_manual(values = category_colors()) +
   theme_phewas()
@@ -193,10 +193,85 @@ It can also be used on phecode-on-y-axis plots.
 
 ``` r
 phewas_data %>% 
-  ggplot(aes(y = reorder(phecode, phecode_index), x = val, color = category)) +
+  ggplot(aes(y = reorder(code, phecode_index), x = val, color = category)) +
   geom_point() +
   scale_color_manual(values = category_colors()) +
   theme_phewas(phecode_on_x_axis = FALSE)
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
+### Rolling up phecodes
+
+Sometimes phecodes are reported with only the leaf values filled in.
+These data can be converted to a full - or “rolled up” - format with the
+functions `rollup_phecode_counts()` and `rollup_phecode_pairs`. First
+let’s look at the counts version.
+
+``` r
+# Patient data with non-rolled up codes
+patient_data <- dplyr::tribble(
+  ~patient,    ~code, ~counts,
+         1, "250.23",      7,
+         1, "250.25",      4,
+         1, "696.40",      1,
+         1, "555.21",      4,
+         2, "401.22",      6,
+         2, "204.00",      5,
+         2, "751.11",      2,
+         2, "008.00",      1,
+         2, "008.50",      2,
+         2, "008.51",      3,
+)
+
+# Rollup the leaf codes to their parents
+patient_data %>% 
+  rollup_phecode_counts(phecode_col = code) %>% 
+  head() %>% 
+  knitr::kable()
+```
+
+| code   | patient | counts |
+| :----- | ------: | -----: |
+| 250.00 |       1 |     11 |
+| 250.20 |       1 |     11 |
+| 250.23 |       1 |      7 |
+| 250.25 |       1 |      4 |
+| 555.00 |       1 |      4 |
+| 555.20 |       1 |      4 |
+
+We can also do the same with data that just represents binary yes or no
+for phecode occurances with `rollup_phecode_pairs()`.
+
+``` r
+# Patient data with non-rolled up codes
+patient_data <- dplyr::tribble(
+  ~patient,     ~code, 
+         1,  "250.23",    
+         1,  "250.25",    
+         1,  "696.40",    
+         1,  "555.21",    
+         2,  "401.22",    
+         2,  "204.00",    
+         2,  "751.11",    
+         2,  "008.00",    
+         2,  "008.50",    
+         2,  "008.51",    
+)
+
+# Rollup the leaf codes to their parents
+patient_data %>% 
+  rollup_phecode_pairs(phecode_col = code) %>% 
+  arrange(code) %>% 
+  head() %>% 
+  knitr::kable()
+```
+
+| patient | code   |
+| ------: | :----- |
+|       2 | 008.00 |
+|       2 | 008.50 |
+|       2 | 008.51 |
+|       2 | 204.00 |
+|       1 | 250.00 |
+|       1 | 250.20 |

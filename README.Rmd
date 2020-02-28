@@ -63,12 +63,12 @@ Phecodes show up in about a million different formats. In our demo data the phec
 
 ```{r normalize_phecodes}
 phewas_data %>% 
-  mutate(fixed_code = normalize_phecode(code)) %>% 
+  mutate(fixed_code = normalize_phecodes(code)) %>% 
   head()
 
 # Update our original data with normalized phecodes
 phewas_data <- phewas_data %>% 
-  mutate(code = normalize_phecode(code))
+  mutate(code = normalize_phecodes(code))
 ```
 
 ### Getting phecode information
@@ -89,13 +89,13 @@ For more a more complete labeling of phecode information the function `join_phec
 ```{r join_phecode_info}
 # We can append all info available
 phewas_data %>% 
-  join_phecode_info(phecode_column = 'code') %>% 
+  join_phecode_info(phecode_column = code) %>% 
   head()
 
 
 # Or we can just extract what we need
 phewas_data <- phewas_data %>% 
-  join_phecode_info(phecode_column = 'code',
+  join_phecode_info(phecode_column = code,
                     cols_to_join = c("description", "category", "phecode_index"))
 
 head(phewas_data)
@@ -110,7 +110,7 @@ Manhattan plots are commonly made of phewas results. Frequently the colors of th
 library(ggplot2)
 
 phewas_data %>% 
-  ggplot(aes(x = reorder(phecode, phecode_index), y = val, color = category)) +
+  ggplot(aes(x = reorder(code, phecode_index), y = val, color = category)) +
   geom_point() +
   scale_color_manual(values = category_colors()) +
   theme(axis.ticks.x = element_blank(),
@@ -124,7 +124,7 @@ If just the color pallete is needed for `ggplot` then the function `scale_color_
 
 ```{r plot-w-scale_color_phecode}
 phewas_data %>% 
-  ggplot(aes(x = reorder(phecode, phecode_index), y = val, color = category)) +
+  ggplot(aes(x = reorder(code, phecode_index), y = val, color = category)) +
   geom_point() +
   scale_color_phecode() +
   theme(axis.ticks.x = element_blank(),
@@ -140,7 +140,7 @@ One last helper is a theme object that lets you get rid of the tick marks for ea
 
 ```{r}
 phewas_data %>% 
-  ggplot(aes(x = reorder(phecode, phecode_index), y = val, color = category)) +
+  ggplot(aes(x = reorder(code, phecode_index), y = val, color = category)) +
   geom_point() +
   scale_color_manual(values = category_colors()) +
   theme_phewas()
@@ -150,10 +150,63 @@ It can also be used on phecode-on-y-axis plots.
 
 ```{r}
 phewas_data %>% 
-  ggplot(aes(y = reorder(phecode, phecode_index), x = val, color = category)) +
+  ggplot(aes(y = reorder(code, phecode_index), x = val, color = category)) +
   geom_point() +
   scale_color_manual(values = category_colors()) +
   theme_phewas(phecode_on_x_axis = FALSE)
 ```
 
 
+### Rolling up phecodes
+
+Sometimes phecodes are reported with only the leaf values filled in. These data can be converted to a full - or "rolled up" - format with the functions `rollup_phecode_counts()` and `rollup_phecode_pairs`. First let's look at the counts version. 
+
+```{r rollup-phecode-counts}
+# Patient data with non-rolled up codes
+patient_data <- dplyr::tribble(
+  ~patient,    ~code, ~counts,
+         1, "250.23",      7,
+         1, "250.25",      4,
+         1, "696.40",      1,
+         1, "555.21",      4,
+         2, "401.22",      6,
+         2, "204.00",      5,
+         2, "751.11",      2,
+         2, "008.00",      1,
+         2, "008.50",      2,
+         2, "008.51",      3,
+)
+
+# Rollup the leaf codes to their parents
+patient_data %>% 
+  rollup_phecode_counts(phecode_col = code) %>% 
+  head() %>% 
+  knitr::kable()
+```
+
+
+We can also do the same with data that just represents binary yes or no for phecode occurances with `rollup_phecode_pairs()`.
+
+```{r rollup-phecode-pairs}
+# Patient data with non-rolled up codes
+patient_data <- dplyr::tribble(
+  ~patient,     ~code, 
+         1,  "250.23",    
+         1,  "250.25",    
+         1,  "696.40",    
+         1,  "555.21",    
+         2,  "401.22",    
+         2,  "204.00",    
+         2,  "751.11",    
+         2,  "008.00",    
+         2,  "008.50",    
+         2,  "008.51",    
+)
+
+# Rollup the leaf codes to their parents
+patient_data %>% 
+  rollup_phecode_pairs(phecode_col = code) %>% 
+  arrange(code) %>% 
+  head() %>% 
+  knitr::kable()
+```
