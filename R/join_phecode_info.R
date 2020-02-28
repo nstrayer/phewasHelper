@@ -66,7 +66,7 @@ join_phecode_info <- function(data_w_phecode,
 
 
   dplyr::left_join(dplyr::rename(data_w_phecode, phecode = !!rlang::sym(phecode_column)),
-                   dplyr::select(phecode_descriptions, phecode, one_of(cols_to_join)),
+                   dplyr::select(phecode_descriptions, phecode, dplyr::one_of(cols_to_join)),
                    suffix = c("", "_info"),
                    by = 'phecode')
 }
