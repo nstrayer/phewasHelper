@@ -8,9 +8,9 @@ phecode_descriptions <- readr::read_csv('data-raw/phecode_definitions1.2.csv') %
          description = phenotype,
          category,
          category_number) %>%
-   mutate(phecode = normalize_phecode(phecode),
-          category_number = as.integer(category_number),
+   mutate(phecode = normalize_phecodes(phecode),
           category_number = ifelse(category_number == 0, 19, category_number),
+          category_number = as.integer(category_number),
           category = ifelse(category == "NULL", 'other', category)) %>%
     arrange(category_number,
             as.numeric(phecode)) %>%
