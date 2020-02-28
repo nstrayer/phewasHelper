@@ -51,7 +51,7 @@ get_phecode_info <- function(codes, what = 'description'){
     return(joined$category)
   } else
   if(what == 'all') {
-    return(dplyr::select(joined, description, category))
+    return(dplyr::select(joined, phecode, description, category))
   } else {
     stop("what argument must be either 'description', 'category', or 'all'.")
   }
