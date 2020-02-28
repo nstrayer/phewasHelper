@@ -58,3 +58,7 @@ get_phecode_info <- function(codes, what = 'description'){
 }
 
 
+utils::globalVariables(c("phecode_descriptions", "phecode", "description",
+                         "category", "category_number", "phecode_index"))
+
+

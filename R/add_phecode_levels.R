@@ -60,5 +60,6 @@ add_phecode_levels <- function(phecode_data,
 
   phecode_data
 }
+utils::globalVariables(c("code_l1", "code_l2", "code_l3", "phecode_to_levels"))
 
 
